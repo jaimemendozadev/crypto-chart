@@ -7,6 +7,7 @@ var newCurrencyData = require('./utils.js').newCurrencyData;
 var yearParam = '2016';
 
 var monthInt, monthString, day, year; 
+
 var yearOfData = {};
 var dataForFrontEnd = [];
 
@@ -18,6 +19,9 @@ if (!yearOfData[yearParam]) {
 }
 
 rawData.data.forEach(priceObj => {
+  var coinSymbol = rawData.coin_symbol;
+  var coinName = rawData.coin_name;
+
   //format the date for each data object
   var dateString = moment.unix(priceObj[0]).format("MM-DD-YYYY");
 
@@ -38,6 +42,8 @@ rawData.data.forEach(priceObj => {
 
     //format data for FE
     dataToSave["Month"] = monthString;
+    dataToSave["coinName"] = coinName;
+    dataToSave["coinSymbol"] = coinSymbol;
     dataForFrontEnd.push(dataToSave);
 
   }

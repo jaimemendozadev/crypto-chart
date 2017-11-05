@@ -34,7 +34,7 @@ export function renderTooltip(data){
   const boxStyle = {
     width: "100%",
     height: "40%",
-    padding: ".5em",
+    padding: "1em",
     border: "1px solid black",
     backgroundColor: "white"
   }
@@ -42,7 +42,7 @@ export function renderTooltip(data){
   return(  
     <div style={boxStyle}>
       {!data ? console.log("got nothing") : console.log("data  inside renderTooltip are ", data)}
-      <p>Price (USD): ${load.payload.price}<br />
+      <p>{load.payload.coinSymbol} Price (USD): ${load.payload.price}<br />
       Date: {load.payload.date}</p>
     </div>
   )

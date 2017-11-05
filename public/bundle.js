@@ -72802,6 +72802,7 @@ var newCurrencyData = __webpack_require__(663).newCurrencyData;
 var yearParam = '2016';
 
 var monthInt, monthString, day, year;
+
 var yearOfData = {};
 var dataForFrontEnd = [];
 
@@ -72811,6 +72812,9 @@ if (!yearOfData[yearParam]) {
 }
 
 rawData.data.forEach(function (priceObj) {
+  var coinSymbol = rawData.coin_symbol;
+  var coinName = rawData.coin_name;
+
   //format the date for each data object
   var dateString = moment.unix(priceObj[0]).format("MM-DD-YYYY");
 
@@ -72838,6 +72842,8 @@ rawData.data.forEach(function (priceObj) {
 
     //format data for FE
     dataToSave["Month"] = monthString;
+    dataToSave["coinName"] = coinName;
+    dataToSave["coinSymbol"] = coinSymbol;
     dataForFrontEnd.push(dataToSave);
   }
 });
@@ -73217,7 +73223,7 @@ function renderTooltip(data) {
   var boxStyle = {
     width: "100%",
     height: "40%",
-    padding: ".5em",
+    padding: "1em",
     border: "1px solid black",
     backgroundColor: "white"
   };
@@ -73229,7 +73235,8 @@ function renderTooltip(data) {
     _react2.default.createElement(
       'p',
       null,
-      'Price (USD): $',
+      load.payload.coinSymbol,
+      ' Price (USD): $',
       load.payload.price,
       _react2.default.createElement('br', null),
       'Date: ',
