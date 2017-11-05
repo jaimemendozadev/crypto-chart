@@ -1,6 +1,6 @@
 var moment = require('moment');
 var rawData = require('./RawData.json');
-var newCurrencyData = require('../utils.js').newCurrencyData;
+var newCurrencyData = require('./utils.js').newCurrencyData;
 
 //when we request data for an entire year, we pass some year param in api call
 

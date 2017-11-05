@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { LineChart, Line, XAxis, Tooltip } from 'recharts';
 import DummyData from '../DummyData.js';
+import {renderTooltip} from '../utils.js';
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -11,7 +12,6 @@ const styles = {
   }
 
 class Chart extends Component {
-  
   render(){
     console.log("Our DummyData is ", DummyData)  
     return(
@@ -23,9 +23,9 @@ class Chart extends Component {
           margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
         >
           <XAxis dataKey="Month" ticks={months} />
-          <Tooltip />
+          <Tooltip content={renderTooltip} />
  
-          <Line type="monotone" dataKey="price" stroke="#ff7300" />
+          <Line type="monotone" dataKey="price" stroke="#464678" />
         </LineChart>
       
     )
@@ -33,4 +33,7 @@ class Chart extends Component {
 }
 
 export default Chart;
+
+
+
 
