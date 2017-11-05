@@ -42099,6 +42099,14 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+var styles = {
+  chart: {
+    margin: "0 auto"
+  }
+};
+
 var Chart = function (_Component) {
   _inherits(Chart, _Component);
 
@@ -42111,15 +42119,17 @@ var Chart = function (_Component) {
   _createClass(Chart, [{
     key: 'render',
     value: function render() {
+      console.log("Our DummyData is ", _DummyData2.default);
       return _react2.default.createElement(
         _recharts.LineChart,
         {
-          width: 1400,
+          width: 1200,
           height: 800,
+          style: styles.chart,
           data: _DummyData2.default,
           margin: { top: 5, right: 20, left: 10, bottom: 5 }
         },
-        _react2.default.createElement(_recharts.XAxis, { dataKey: 'date' }),
+        _react2.default.createElement(_recharts.XAxis, { dataKey: 'Month', ticks: months }),
         _react2.default.createElement(_recharts.Tooltip, null),
         _react2.default.createElement(_recharts.Line, { type: 'monotone', dataKey: 'price', stroke: '#ff7300' })
       );
@@ -72789,7 +72799,7 @@ var newCurrencyData = __webpack_require__(662).newCurrencyData;
 
 var yearParam = '2016';
 
-var month, day, year;
+var monthInt, monthString, day, year;
 var yearOfData = {};
 var dataForFrontEnd = [];
 
@@ -72809,21 +72819,26 @@ rawData.data.forEach(function (priceObj) {
 
   //destruct dateArray into new variables
 
-  //handle edge case that we have data from previous or future years
   var _dateArray = _slicedToArray(dateArray, 3);
 
-  month = _dateArray[0];
+  monthInt = _dateArray[0];
   day = _dateArray[1];
   year = _dateArray[2];
+
+  monthString = moment.months(monthInt - 1);
+
+  //handle edge case that we have data from previous or future years
   if (year == yearParam) {
+    //save data to DB
     var price = parseFloat(priceObj[4]);
     var dataToSave = { date: dateString, price: price };
-    yearOfData[year][month][day] = dataToSave;
+    yearOfData[year][monthInt][day] = dataToSave;
+
+    //format data for FE
+    dataToSave["Month"] = monthString;
     dataForFrontEnd.push(dataToSave);
   }
 });
-
-console.log("dataForFrontEnd is ", dataForFrontEnd);
 
 /* Raw Data Response
 {
@@ -72857,27 +72872,21 @@ console.log("dataForFrontEnd is ", dataForFrontEnd);
 /* Proposed CryptoCoin Data Structure
 {
   year: {
-    cryptoName: {
-      1:{
-        {day: price}    
-      },
-      2:{},
-      3:{},
-      4:{},
-      5:{},
-      6:{},
-      7:{},
-      8:{},
-      9:{},
-      10:{},
-      11:{},
-      12:{},
-    }
+    
+      1:{ //month in integer form
+        {
+          1: { date: String, price: Number } //day of month in integer form
+        }    
+      }
   }    
 }
 
 
 */
+
+//console.log("yearOfData is ", yearOfData)
+
+console.log("dataForFrontEnd is ", dataForFrontEnd);
 
 var dateA = moment().subtract(7, 'days');
 

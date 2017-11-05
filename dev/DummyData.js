@@ -6,7 +6,7 @@ var newCurrencyData = require('../utils.js').newCurrencyData;
 
 var yearParam = '2016';
 
-var month, day, year; 
+var monthInt, monthString, day, year; 
 var yearOfData = {};
 var dataForFrontEnd = [];
 
@@ -25,24 +25,25 @@ rawData.data.forEach(priceObj => {
   var dateArray = dateString.split("-").map(num => parseInt(num, 10));
   
   //destruct dateArray into new variables
-  [month, day, year] = dateArray;
+  [monthInt, day, year] = dateArray;
+  monthString = moment.months(monthInt - 1);
   
+
   //handle edge case that we have data from previous or future years
   if(year == yearParam){
+    //save data to DB
     var price = parseFloat(priceObj[4]);
     var dataToSave = { date: dateString, price };
-    yearOfData[year][month][day] = dataToSave;
+    yearOfData[year][monthInt][day] = dataToSave;
+
+    //format data for FE
+    dataToSave["Month"] = monthString;
     dataForFrontEnd.push(dataToSave);
+
   }
 
 });
 
-
-
-
-
-
-console.log("dataForFrontEnd is ", dataForFrontEnd);
 
 
 /* Raw Data Response
@@ -78,30 +79,21 @@ console.log("dataForFrontEnd is ", dataForFrontEnd);
 /* Proposed CryptoCoin Data Structure
 {
   year: {
-    cryptoName: {
-      1:{
-        {day: price}    
-      },
-      2:{},
-      3:{},
-      4:{},
-      5:{},
-      6:{},
-      7:{},
-      8:{},
-      9:{},
-      10:{},
-      11:{},
-      12:{},
-    }
+    
+      1:{ //month in integer form
+        {
+          1: { date: String, price: Number } //day of month in integer form
+        }    
+      }
   }    
 }
 
 
 */
 
+//console.log("yearOfData is ", yearOfData)
 
-
+console.log("dataForFrontEnd is ", dataForFrontEnd);
 
 
 
