@@ -996,11 +996,6 @@ var App = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(
-          'h1',
-          null,
-          'Crypto Currency Chart'
-        ),
         _react2.default.createElement(_Chart2.default, null)
       );
     }
@@ -42093,6 +42088,10 @@ var _DummyData2 = _interopRequireDefault(_DummyData);
 
 var _utils = __webpack_require__(663);
 
+var _Legend = __webpack_require__(664);
+
+var _Legend2 = _interopRequireDefault(_Legend);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -42106,6 +42105,9 @@ var months = ["January", "February", "March", "April", "May", "June", "July", "A
 var styles = {
   chart: {
     margin: "0 auto"
+  },
+  header: {
+    textAlign: "center"
   }
 };
 
@@ -42123,17 +42125,27 @@ var Chart = function (_Component) {
     value: function render() {
       console.log("Our DummyData is ", _DummyData2.default);
       return _react2.default.createElement(
-        _recharts.LineChart,
-        {
-          width: 1200,
-          height: 800,
-          style: styles.chart,
-          data: _DummyData2.default,
-          margin: { top: 5, right: 20, left: 10, bottom: 5 }
-        },
-        _react2.default.createElement(_recharts.XAxis, { dataKey: 'Month', ticks: months }),
-        _react2.default.createElement(_recharts.Tooltip, { content: _utils.renderTooltip }),
-        _react2.default.createElement(_recharts.Line, { type: 'monotone', dataKey: 'price', stroke: '#464678' })
+        'div',
+        null,
+        _react2.default.createElement(
+          'h1',
+          { style: styles.header },
+          'Crypto Currency Chart'
+        ),
+        _react2.default.createElement(_Legend2.default, null),
+        _react2.default.createElement(
+          _recharts.LineChart,
+          {
+            width: 1200,
+            height: 800,
+            style: styles.chart,
+            data: _DummyData2.default,
+            margin: { top: 5, right: 20, left: 10, bottom: 5 }
+          },
+          _react2.default.createElement(_recharts.XAxis, { dataKey: 'Month', ticks: months }),
+          _react2.default.createElement(_recharts.Tooltip, { content: _utils.renderTooltip }),
+          _react2.default.createElement(_recharts.Line, { type: 'monotone', dataKey: 'price', stroke: '#464678' })
+        )
       );
     }
   }]);
@@ -73244,6 +73256,130 @@ function renderTooltip(data) {
     )
   );
 }
+
+/***/ }),
+/* 664 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var style = {
+  formContainer: {
+    width: "400px",
+    height: "200px",
+    margin: "0 auto",
+    padding: "1em"
+  },
+
+  formControl: {
+    display: "block",
+    width: "80%",
+    height: "30px",
+    padding: "6px 12px",
+    fontSize: "14px",
+    lineHeight: 1.42857143,
+    color: "#555",
+    backgroundColor: "#fff",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    margin: 0
+  }
+};
+
+var Legend = function (_Component) {
+  _inherits(Legend, _Component);
+
+  function Legend(props) {
+    _classCallCheck(this, Legend);
+
+    var _this = _possibleConstructorReturn(this, (Legend.__proto__ || Object.getPrototypeOf(Legend)).call(this, props));
+
+    _this.state = {
+      currentYear: '',
+      yearToFetch: 'Enter the year to get new data...',
+      monthToFilter: 'Enter the month to filter the data...'
+    };
+
+    _this.handleYearChange = _this.handleYearChange.bind(_this);
+    _this.handleMonthChange = _this.handleMonthChange.bind(_this);
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    return _this;
+  }
+
+  _createClass(Legend, [{
+    key: "handleYearChange",
+    value: function handleYearChange(event) {
+      console.log("event is ", event.target.value);
+
+      this.setState({
+        yearToFetch: event.target.value
+      });
+    }
+  }, {
+    key: "handleMonthChange",
+    value: function handleMonthChange(event) {
+      console.log("event is ", event.target.value);
+
+      this.setState({
+        yearToFetch: event.target.value
+      });
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(event) {
+      event.preventDefault();
+      console.log("yaaaay");
+      return _react2.default.createElement("div", null);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "form",
+        { onSubmit: this.handleSubmit, style: style.formContainer },
+        _react2.default.createElement(
+          "label",
+          null,
+          "Year to Fetch Data:"
+        ),
+        _react2.default.createElement("input", { style: style.formControl, value: this.state.yearToFetch, onChange: this.handleInputChange }),
+        _react2.default.createElement(
+          "div",
+          { style: { marginTop: "1em" } },
+          _react2.default.createElement(
+            "label",
+            null,
+            "Enter the Month to Filter the Data"
+          ),
+          _react2.default.createElement("input", { style: style.formControl, value: this.state.yearToFetch, onChange: this.handleMonthChange })
+        )
+      );
+    }
+  }]);
+
+  return Legend;
+}(_react.Component);
+
+exports.default = Legend;
 
 /***/ })
 /******/ ]);
