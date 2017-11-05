@@ -42123,7 +42123,6 @@ var Chart = function (_Component) {
   _createClass(Chart, [{
     key: 'render',
     value: function render() {
-      console.log("Our DummyData is ", _DummyData2.default);
       return _react2.default.createElement(
         'div',
         null,
@@ -42144,7 +42143,7 @@ var Chart = function (_Component) {
           },
           _react2.default.createElement(_recharts.XAxis, { dataKey: 'Month', ticks: months }),
           _react2.default.createElement(_recharts.Tooltip, { content: _utils.renderTooltip }),
-          _react2.default.createElement(_recharts.Line, { type: 'monotone', dataKey: 'price', stroke: '#464678' })
+          _react2.default.createElement(_recharts.Line, { type: 'monotone', dataKey: 'ETH', stroke: '#464678' })
         )
       );
     }
@@ -72807,7 +72806,29 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var moment = __webpack_require__(540);
 var rawData = __webpack_require__(661);
-var newCurrencyData = __webpack_require__(663).newCurrencyData;
+//var newCurrencyData = require('./utils.js').newCurrencyData;
+
+
+function newCurrencyData(year) {
+  var currencyData = {};
+
+  currencyData[year] = {
+    1: {},
+    2: {},
+    3: {},
+    4: {},
+    5: {},
+    6: {},
+    7: {},
+    8: {},
+    9: {},
+    10: {},
+    11: {},
+    12: {}
+  };
+
+  return currencyData;
+};
 
 //when we request data for an entire year, we pass some year param in api call
 
@@ -72847,15 +72868,17 @@ rawData.data.forEach(function (priceObj) {
 
   //handle edge case that we have data from previous or future years
   if (year == yearParam) {
-    //save data to DB
+    //save data to DB && format data for FE
     var price = parseFloat(priceObj[4]);
-    var dataToSave = { date: dateString, price: price };
+
+    var dataToSave = { date: dateString };
     yearOfData[year][monthInt][day] = dataToSave;
 
-    //format data for FE
     dataToSave["Month"] = monthString;
     dataToSave["coinName"] = coinName;
-    dataToSave["coinSymbol"] = coinSymbol;
+    dataToSave[coinSymbol] = price;
+
+    console.log("data before being pushed to array is ", dataToSave);
     dataForFrontEnd.push(dataToSave);
   }
 });
@@ -73247,9 +73270,13 @@ function renderTooltip(data) {
     _react2.default.createElement(
       'p',
       null,
-      load.payload.coinSymbol,
-      ' Price (USD): $',
+      'Clsoing price of ',
+      load.payload.coinName,
+      ':',
+      _react2.default.createElement('br', null),
+      '$',
       load.payload.price,
+      ' (USD)',
       _react2.default.createElement('br', null),
       'Date: ',
       load.payload.date

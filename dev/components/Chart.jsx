@@ -17,7 +17,6 @@ const styles = {
 
 class Chart extends Component {
   render(){
-    console.log("Our DummyData is ", DummyData)  
     return(
         <div>
           <h1 style={styles.header}>Crypto Currency Chart</h1>
@@ -32,7 +31,7 @@ class Chart extends Component {
             <XAxis dataKey="Month" ticks={months} />
             <Tooltip content={renderTooltip} />
    
-            <Line type="monotone" dataKey="price" stroke="#464678" />
+            <Line type="monotone" dataKey="ETH" stroke="#464678" />
           </LineChart>
         </div>
       

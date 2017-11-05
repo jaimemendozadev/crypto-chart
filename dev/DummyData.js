@@ -1,6 +1,34 @@
 var moment = require('moment');
 var rawData = require('./RawData.json');
-var newCurrencyData = require('./utils.js').newCurrencyData;
+//var newCurrencyData = require('./utils.js').newCurrencyData;
+
+
+function newCurrencyData(year){
+  var currencyData = {};
+
+  currencyData[year] = {
+    1:{},
+    2:{},
+    3:{},
+    4:{},
+    5:{},
+    6:{},
+    7:{},
+    8:{},
+    9:{},
+    10:{},
+    11:{},
+    12:{},
+  }
+  
+
+  return currencyData;
+
+};
+
+
+
+
 
 //when we request data for an entire year, we pass some year param in api call
 
@@ -35,15 +63,17 @@ rawData.data.forEach(priceObj => {
 
   //handle edge case that we have data from previous or future years
   if(year == yearParam){
-    //save data to DB
+    //save data to DB && format data for FE
     var price = parseFloat(priceObj[4]);
-    var dataToSave = { date: dateString, price };
+    
+    var dataToSave = { date: dateString };
     yearOfData[year][monthInt][day] = dataToSave;
 
-    //format data for FE
     dataToSave["Month"] = monthString;
     dataToSave["coinName"] = coinName;
-    dataToSave["coinSymbol"] = coinSymbol;
+    dataToSave[coinSymbol] = price;
+
+    console.log("data before being pushed to array is ", dataToSave)
     dataForFrontEnd.push(dataToSave);
 
   }
