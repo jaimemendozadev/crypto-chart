@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import Chart from './components/Chart.jsx';
 
 class App extends Component {
   render(){
     return (
-      <h1>Crypto Currency Chart</h1>
-      
+      <div>
+        <Chart />
+      </div>
     )
   }
 }
