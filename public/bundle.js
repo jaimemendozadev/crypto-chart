@@ -94259,7 +94259,9 @@ var FETCH_PRICE_DATA = exports.FETCH_PRICE_DATA = 'FETCH_PRICE_DATA';
 
 function fetchPriceData() {
   //make API call to backend
-  var fetchedData = _DummyData2.default;
+  //var fetchedData = DummyData;
+
+  var fetchedData = _axios2.default.get('http://localhost:3000/api/fetchpricedata');
 
   return {
     type: FETCH_PRICE_DATA,

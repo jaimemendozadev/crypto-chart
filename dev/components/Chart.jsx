@@ -32,23 +32,22 @@ class Chart extends Component {
       return <h2>Fetching Data...</h2>;
     }
     return(
-        <div>
-          <h1 style={styles.header}>Crypto Currency Chart</h1>
-          <Legend />
-          <LineChart
-            width={1200}
-            height={800}
-            style={styles.chart}
-            data={this.props.PriceFeed}
-            margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-          >
-            <XAxis dataKey="Month" ticks={months} />
-            <Tooltip content={renderTooltip} />
-   
-            <Line type="monotone" dataKey="ETH" stroke="#464678" />
-          </LineChart>
-        </div>
-      
+      <div>
+        <h1 style={styles.header}>Crypto Currency Chart</h1>
+        <Legend />
+        <LineChart
+          width={1200}
+          height={800}
+          style={styles.chart}
+          data={this.props.PriceFeed}
+          margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+        >
+          <XAxis dataKey="Month" ticks={months} />
+          <Tooltip content={renderTooltip} />
+  
+          <Line type="monotone" dataKey="ETH" stroke="#464678" />
+        </LineChart>
+      </div>
     )
   }
 }
