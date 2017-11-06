@@ -59134,9 +59134,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _recharts = __webpack_require__(374);
 
-var _DummyData = __webpack_require__(668);
+var _redux = __webpack_require__(348);
 
-var _DummyData2 = _interopRequireDefault(_DummyData);
+var _reactRedux = __webpack_require__(688);
+
+var _FetchPriceData = __webpack_require__(715);
 
 var _utils = __webpack_require__(672);
 
@@ -59173,8 +59175,20 @@ var Chart = function (_Component) {
   }
 
   _createClass(Chart, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.fetchPriceData();
+    }
+  }, {
     key: 'render',
     value: function render() {
+      if (!this.props.PriceFeed) {
+        return _react2.default.createElement(
+          'h2',
+          null,
+          'Fetching Data...'
+        );
+      }
       return _react2.default.createElement(
         'div',
         null,
@@ -59190,7 +59204,7 @@ var Chart = function (_Component) {
             width: 1200,
             height: 800,
             style: styles.chart,
-            data: _DummyData2.default,
+            data: this.props.PriceFeed,
             margin: { top: 5, right: 20, left: 10, bottom: 5 }
           },
           _react2.default.createElement(_recharts.XAxis, { dataKey: 'Month', ticks: months }),
@@ -59204,7 +59218,19 @@ var Chart = function (_Component) {
   return Chart;
 }(_react.Component);
 
-exports.default = Chart;
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({ fetchPriceData: _FetchPriceData.fetchPriceData }, dispatch);
+}
+
+function mapStateToProps(_ref) {
+  var PriceFeed = _ref.PriceFeed;
+
+  return {
+    PriceFeed: PriceFeed
+  };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Chart);
 
 /***/ }),
 /* 374 */
@@ -74000,7 +74026,6 @@ rawData.data.forEach(function (priceObj) {
     dataToSave["coinName"] = coinName;
     dataToSave[coinSymbol] = price;
 
-    console.log("data before being pushed to array is ", dataToSave);
     dataForFrontEnd.push(dataToSave);
   }
 });
@@ -91582,7 +91607,7 @@ var Legend = function (_Component) {
       console.log("event is ", event.target.value);
 
       this.setState({
-        yearToFetch: event.target.value
+        monthToFilter: event.target.value
       });
     }
   }, {
@@ -91603,7 +91628,7 @@ var Legend = function (_Component) {
           null,
           "Year to Fetch Data:"
         ),
-        _react2.default.createElement("input", { style: style.formControl, value: this.state.yearToFetch, onChange: this.handleInputChange }),
+        _react2.default.createElement("input", { style: style.formControl, value: this.state.yearToFetch, onChange: this.handleYearChange }),
         _react2.default.createElement(
           "div",
           { style: { marginTop: "1em" } },
@@ -91612,7 +91637,7 @@ var Legend = function (_Component) {
             null,
             "Enter the Month to Filter the Data"
           ),
-          _react2.default.createElement("input", { style: style.formControl, value: this.state.yearToFetch, onChange: this.handleMonthChange })
+          _react2.default.createElement("input", { style: style.formControl, value: this.state.monthToFilter, onChange: this.handleMonthChange })
         )
       );
     }
@@ -94237,7 +94262,7 @@ function fetchPriceData() {
   var fetchedData = _DummyData2.default;
 
   return {
-    action: FETCH_PRICE_DATA,
+    type: FETCH_PRICE_DATA,
     payload: fetchedData
   };
 }

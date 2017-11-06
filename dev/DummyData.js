@@ -75,7 +75,6 @@ rawData.data.forEach(priceObj => {
     dataToSave["coinName"] = coinName;
     dataToSave[coinSymbol] = price;
 
-    console.log("data before being pushed to array is ", dataToSave)
     dataForFrontEnd.push(dataToSave);
 
   }

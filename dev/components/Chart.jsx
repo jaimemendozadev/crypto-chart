@@ -1,8 +1,14 @@
 import React, {Component} from 'react';
 import { LineChart, Line, XAxis, Tooltip } from 'recharts';
-import DummyData from '../DummyData.js';
+
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {fetchPriceData} from '../actions/FetchPriceData.jsx';
+
 import {renderTooltip} from '../utils.js';
 import Legend from './Legend.jsx';
+
+
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -16,7 +22,15 @@ const styles = {
   }
 
 class Chart extends Component {
+  
+  componentDidMount(){
+    this.props.fetchPriceData();
+  }
+  
   render(){
+    if(!this.props.PriceFeed) {
+      return <h2>Fetching Data...</h2>;
+    }
     return(
         <div>
           <h1 style={styles.header}>Crypto Currency Chart</h1>
@@ -25,7 +39,7 @@ class Chart extends Component {
             width={1200}
             height={800}
             style={styles.chart}
-            data={DummyData}
+            data={this.props.PriceFeed}
             margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
           >
             <XAxis dataKey="Month" ticks={months} />
@@ -39,7 +53,17 @@ class Chart extends Component {
   }
 }
 
-export default Chart;
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({fetchPriceData}, dispatch);
+}
+
+function mapStateToProps({PriceFeed}){
+  return {
+    PriceFeed
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chart);
 
 
 

@@ -51,7 +51,7 @@ class Legend extends Component {
     console.log("event is ", event.target.value);
 
     this.setState({
-      yearToFetch: event.target.value
+      monthToFilter: event.target.value
     })
   }
 
@@ -67,11 +67,11 @@ class Legend extends Component {
     return(
       <form onSubmit={this.handleSubmit} style={style.formContainer}>
         <label>Year to Fetch Data:</label>
-        <input style={style.formControl} value={this.state.yearToFetch} onChange={this.handleInputChange} />
+        <input style={style.formControl} value={this.state.yearToFetch} onChange={this.handleYearChange} />
 
         <div style={{marginTop: "1em"}}>
           <label>Enter the Month to Filter the Data</label>
-          <input style={style.formControl} value={this.state.yearToFetch} onChange=  {this.handleMonthChange} />
+          <input style={style.formControl} value={this.state.monthToFilter} onChange={this.handleMonthChange} />
         </div>
 
       </form>

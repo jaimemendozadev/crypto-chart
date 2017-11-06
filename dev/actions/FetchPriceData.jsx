@@ -10,7 +10,7 @@ export function fetchPriceData(){
   var fetchedData = DummyData;
   
   return {
-    action: FETCH_PRICE_DATA,
+    type: FETCH_PRICE_DATA,
     payload: fetchedData
   }
 }
