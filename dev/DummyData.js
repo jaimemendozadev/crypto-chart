@@ -1,5 +1,7 @@
 var moment = require('moment');
 var rawData = require('./RawData.json');
+var _ = require('lodash');
+
 //var newCurrencyData = require('./utils.js').newCurrencyData;
 
 
@@ -129,13 +131,14 @@ rawData.data.forEach(priceObj => {
 
 //console.log("yearOfData is ", yearOfData)
 
+var formatByMonth = _.mapKeys(dataForFrontEnd, 'Month');
+
 console.log("dataForFrontEnd is ", dataForFrontEnd);
 
 
 
 
 var dateA = moment().subtract(7, 'days');
-
 
 //console.log(dateA.format("MM-DD-YYYY"))
 
