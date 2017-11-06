@@ -1,5 +1,5 @@
 import React from 'react';
-import combineReducers from 'redux';
+import {combineReducers} from 'redux';
 import SetPriceData from './SetPriceData.jsx';
 
 const RootReducer = combineReducers({

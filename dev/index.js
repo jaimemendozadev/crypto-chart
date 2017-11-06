@@ -1,15 +1,17 @@
-import React, {Component} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import Chart from './components/Chart.jsx';
+import RootReducer from './reducers/RootReducer.jsx';
+import {applyMiddleware, createStore} from 'redux';
+import {Provider} from 'react-redux';
+import promiseMiddleware from 'redux-promise';
 
-class App extends Component {
-  render(){
-    return (
-      <div>
-        <Chart />
-      </div>
-    )
-  }
-}
+const createStoreWithMiddleware = applyMiddleware(promiseMiddleware)(createStore);
 
-ReactDOM.render(<App />, document.querySelector('.container'));
+
+
+ReactDOM.render(
+  <Provider store={createStoreWithMiddleware(RootReducer)}>
+    <Chart />
+  </Provider>
+  , document.querySelector('.container'));
