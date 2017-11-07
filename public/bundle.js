@@ -59146,6 +59146,10 @@ var _Legend = __webpack_require__(673);
 
 var _Legend2 = _interopRequireDefault(_Legend);
 
+var _DummyData = __webpack_require__(668);
+
+var _DummyData2 = _interopRequireDefault(_DummyData);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -59177,7 +59181,8 @@ var Chart = function (_Component) {
   _createClass(Chart, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.props.fetchPriceData();
+      var yearToFetch = new Date().getFullYear();
+      this.props.fetchPriceData(yearToFetch);
     }
   }, {
     key: 'render',
@@ -59204,8 +59209,8 @@ var Chart = function (_Component) {
             width: 1200,
             height: 800,
             style: styles.chart,
-            data: this.props.PriceFeed,
-            margin: { top: 5, right: 20, left: 10, bottom: 5 }
+            data: _DummyData2.default //this.props.PriceFeed
+            , margin: { top: 5, right: 20, left: 10, bottom: 5 }
           },
           _react2.default.createElement(_recharts.XAxis, { dataKey: 'Month', ticks: months }),
           _react2.default.createElement(_recharts.Tooltip, { content: _utils.renderTooltip }),
@@ -74004,6 +74009,8 @@ rawData.data.forEach(function (priceObj) {
     return parseInt(num, 10);
   });
 
+  console.log("dateArray is ", dateArray);
+
   //destruct dateArray into new variables
 
   var _dateArray = _slicedToArray(dateArray, 3);
@@ -74059,7 +74066,7 @@ rawData.data.forEach(function (priceObj) {
 
 */
 
-/* Proposed CryptoCoin Data Structure
+/* Proposed CryptoCoin Data Structure for DB
 {
   year: {
     
@@ -74074,11 +74081,12 @@ rawData.data.forEach(function (priceObj) {
 
 */
 
-//console.log("yearOfData is ", yearOfData)
+console.log("yearOfData is ", yearOfData);
 
 var formatByMonth = _.mapKeys(dataForFrontEnd, 'Month');
 
-console.log("dataForFrontEnd is ", dataForFrontEnd);
+//console.log("dataForFrontEnd is ", dataForFrontEnd);
+
 
 var dateA = moment().subtract(7, 'days');
 
@@ -91506,7 +91514,6 @@ function renderTooltip(data) {
   return _react2.default.createElement(
     'div',
     { style: boxStyle },
-    !data ? console.log("got nothing") : console.log("data  inside renderTooltip are ", data),
     _react2.default.createElement(
       'p',
       null,
@@ -94257,11 +94264,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var FETCH_PRICE_DATA = exports.FETCH_PRICE_DATA = 'FETCH_PRICE_DATA';
 
-function fetchPriceData() {
+function fetchPriceData(fetchYear) {
   //make API call to backend
   //var fetchedData = DummyData;
-
-  var fetchedData = _axios2.default.get('http://localhost:3000/api/fetchpricedata');
+  var fetchedData = _axios2.default.get('http://localhost:3000/api/fetchpricedata/' + fetchYear);
 
   return {
     type: FETCH_PRICE_DATA,

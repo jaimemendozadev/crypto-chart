@@ -58,6 +58,8 @@ rawData.data.forEach(priceObj => {
   //convert date strings into integers, store in an array
   var dateArray = dateString.split("-").map(num => parseInt(num, 10));
   
+  console.log("dateArray is ", dateArray);
+  
   //destruct dateArray into new variables
   [monthInt, day, year] = dateArray;
   monthString = moment.months(monthInt - 1);
@@ -113,7 +115,7 @@ rawData.data.forEach(priceObj => {
 */
 
 
-/* Proposed CryptoCoin Data Structure
+/* Proposed CryptoCoin Data Structure for DB
 {
   year: {
     
@@ -128,11 +130,11 @@ rawData.data.forEach(priceObj => {
 
 */
 
-//console.log("yearOfData is ", yearOfData)
+console.log("yearOfData is ", yearOfData)
 
 var formatByMonth = _.mapKeys(dataForFrontEnd, 'Month');
 
-console.log("dataForFrontEnd is ", dataForFrontEnd);
+//console.log("dataForFrontEnd is ", dataForFrontEnd);
 
 
 

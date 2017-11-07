@@ -8,6 +8,7 @@ import {fetchPriceData} from '../actions/FetchPriceData.jsx';
 import {renderTooltip} from '../utils.js';
 import Legend from './Legend.jsx';
 
+import DummyData from '../DummyData.js';
 
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -24,7 +25,8 @@ const styles = {
 class Chart extends Component {
   
   componentDidMount(){
-    this.props.fetchPriceData();
+    var yearToFetch = new Date().getFullYear();
+    this.props.fetchPriceData(yearToFetch);
   }
   
   render(){
@@ -39,7 +41,7 @@ class Chart extends Component {
           width={1200}
           height={800}
           style={styles.chart}
-          data={this.props.PriceFeed}
+          data={DummyData} //this.props.PriceFeed
           margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
         >
           <XAxis dataKey="Month" ticks={months} />

@@ -41,7 +41,6 @@ export function renderTooltip(data){
   
   return(  
     <div style={boxStyle}>
-      {!data ? console.log("got nothing") : console.log("data  inside renderTooltip are ", data)}
       <p>
         Clsoing price of {load.payload.coinName}:<br /> 
         ${load.payload.price} (USD)<br />

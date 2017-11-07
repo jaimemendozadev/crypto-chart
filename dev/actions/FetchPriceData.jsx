@@ -5,11 +5,10 @@ import DummyData from '../DummyData.js';
 
 export const FETCH_PRICE_DATA = 'FETCH_PRICE_DATA';
 
-export function fetchPriceData(){
+export function fetchPriceData(fetchYear){
   //make API call to backend
   //var fetchedData = DummyData;
-
-  const fetchedData = axios.get('http://localhost:3000/api/fetchpricedata');
+  const fetchedData = axios.get(`http://localhost:3000/api/fetchpricedata/${fetchYear}`);
   
   return {
     type: FETCH_PRICE_DATA,
