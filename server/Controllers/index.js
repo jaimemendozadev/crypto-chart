@@ -43,6 +43,8 @@ var fetchData = (req, res) => {
 
     }))
     .then(formattedData => {
+      console.log("data for FE ", JSON.stringify(formattedData));
+      console.log("\n");
       res.send(formattedData);
     })
     .catch(error => {

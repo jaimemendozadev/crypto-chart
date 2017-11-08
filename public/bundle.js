@@ -76881,7 +76881,6 @@ function newCurrencyData(year) {
 };
 
 function renderTooltip(data) {
-  console.log("the data is ", data);
   if (!data.payload[0]) {
     return _react2.default.createElement('div', null);
   }
