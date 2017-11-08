@@ -24,31 +24,25 @@ var fetchData = (req, res) => {
 
 
   axios.all([ETH, BTC])
-    .then((eth, btc) => {
-     
+    .then(axios.spread((eth, btc) => {
+      
       if (requestYear < currentYear) {
         //archive data to DB    
       }
-    
-      var dataToSend = [];
       
-      [eth, btc].forEach((currencyData) => {
-        console.log("the currencyData to be formatted is ", currencyData);
+      var dataForFrontEnd = [];
 
-
+      [eth.data, btc.data].forEach((currencyData) => {
+        var result = formatFrontEndData(currencyData, requestYear);
         
-        var result = formatFrontEndData(currencyData.data, requestYear);
-
-
-        dataToSend.push(result);
+        dataForFrontEnd = dataForFrontEnd.concat(result);
+        
       });
 
-      console.log("datatoSend outside forEach is ", dataToSend)
-      
-      return dataToSend;
+      return dataForFrontEnd;
 
-    })
-    .then(formattedData =>{
+    }))
+    .then(formattedData => {
       res.send(formattedData);
     })
     .catch(error => {

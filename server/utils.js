@@ -76,12 +76,9 @@ function createDataObject(priceObj, requestYear, coinName, coinSymbol) {
 }
 
 
-
 function formatFrontEndData(RawData, requestYear) {
   var FrontEndData = [];
   
-  //console.log("RawData inside formatFrontEndData is ", RawData)
-
   var coinName = RawData.coin_name;
   var coinSymbol = RawData.coin_symbol;
   
@@ -93,9 +90,6 @@ function formatFrontEndData(RawData, requestYear) {
       FrontEndData.push(dataObj);
     
   });
-
-  
-
   
   return FrontEndData;
 }

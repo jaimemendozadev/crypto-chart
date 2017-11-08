@@ -26,6 +26,7 @@ export function newCurrencyData(year){
 };
 
 export function renderTooltip(data){
+  console.log("the data is ", data);
   if(!data.payload[0]){
     return <div></div>
   }
