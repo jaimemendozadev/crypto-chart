@@ -27762,10 +27762,12 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var BASE_URL = 'http://localhost:3000/api/fetchpricedata/';
+
 var FETCH_PRICE_DATA = exports.FETCH_PRICE_DATA = 'FETCH_PRICE_DATA';
 
 function fetchPriceData(fetchYear) {
-  var fetchedData = _axios2.default.get('http://localhost:3000/api/fetchpricedata/' + fetchYear).then(function (response) {
+  var fetchedData = _axios2.default.get('' + BASE_URL + fetchYear).then(function (response) {
     return response.data;
   });
 
@@ -76900,11 +76902,11 @@ function renderTooltip(data) {
       'p',
       null,
       'Clsoing price of ',
-      load.payload.coinName,
+      load.name,
       ':',
       _react2.default.createElement('br', null),
       '$',
-      load.payload.price,
+      load.value,
       ' (USD)',
       _react2.default.createElement('br', null),
       'Date: ',

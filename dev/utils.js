@@ -43,8 +43,8 @@ export function renderTooltip(data){
   return(  
     <div style={boxStyle}>
       <p>
-        Clsoing price of {load.payload.coinName}:<br /> 
-        ${load.payload.price} (USD)<br />
+        Clsoing price of {load.name}:<br /> 
+        ${load.value} (USD)<br />
         Date: {load.payload.date}
       </p>
     </div>
