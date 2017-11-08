@@ -7,7 +7,7 @@ import {fetchPriceData} from '../actions/FetchPriceData.jsx';
 
 import {renderTooltip} from '../utils.js';
 import Legend from './Legend.jsx';
-import FEData2 from '../FEData2.js';
+import FEData3 from '../FEData3.js';
 
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -25,7 +25,7 @@ const styles = {
 class Chart extends Component {
   
   render(){
-    console.log("FEData2 is ", FEData2)
+    console.log("FEData3 is ", FEData3)
     return(
       <div>
         <h1 style={styles.header}>Crypto Currency Chart</h1>
@@ -35,7 +35,7 @@ class Chart extends Component {
           height={700}
 
           style={styles.chart}
-          data={FEData2} //PriceFeed
+          data={FEData3} //PriceFeed
           margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
         >
           <YAxis />
