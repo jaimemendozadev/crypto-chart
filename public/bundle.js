@@ -59938,7 +59938,7 @@ var Chart = function (_Component) {
             , margin: { top: 5, right: 20, left: 10, bottom: 5 }
           },
           _react2.default.createElement(_recharts.YAxis, null),
-          _react2.default.createElement(_recharts.XAxis, { interval: 0, minTickGap: 50, allowDataOverflow: false, dataKey: 'Month', ticks: months }),
+          _react2.default.createElement(_recharts.XAxis, { dataKey: 'Month', ticks: months }),
           _react2.default.createElement(_recharts.Tooltip, { content: _utils.renderTooltip }),
           _react2.default.createElement(_recharts.Line, { connectNulls: true, type: 'monotone', dataKey: 'ETH', stroke: '#464678' }),
           _react2.default.createElement(_recharts.Line, { connectNulls: true, type: 'monotone', dataKey: 'BTC', stroke: '#ff7300' })
@@ -76870,6 +76870,8 @@ function newCurrencyData(year) {
 };
 
 function renderTooltip(data) {
+  console.log("the data is ", data);
+
   if (!data.payload[0]) {
     return _react2.default.createElement('div', null);
   }

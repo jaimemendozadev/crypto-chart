@@ -40,8 +40,10 @@ class Chart extends Component {
         >
           <YAxis />
 
-          <XAxis interval={0} minTickGap={50} allowDataOverflow={false} dataKey="Month" ticks={months} />
+          <XAxis dataKey="Month" ticks={months} />
           <Tooltip content={renderTooltip} />
+
+     
 
           <Line connectNulls={true} type="monotone" dataKey="ETH" stroke="#464678" />
           <Line connectNulls={true} type="monotone" dataKey="BTC" stroke="#ff7300" /> 

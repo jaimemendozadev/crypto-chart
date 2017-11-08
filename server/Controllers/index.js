@@ -42,10 +42,16 @@ var fetchData = (req, res) => {
       return dataForFrontEnd;
 
     }))
-    .then(formattedData => {
-      console.log("data for FE ", JSON.stringify(formattedData));
+
+    .then(dataForSorting => {
+      //performing sorting here
+
+
+    })
+    .then(finalData => {
+      console.log("data for FE ", JSON.stringify(finalData));
       console.log("\n");
-      res.send(formattedData);
+      res.send(finalData);
     })
     .catch(error => {
       console.log("The error inside axios spread is ", error);
