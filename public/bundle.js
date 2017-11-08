@@ -59897,8 +59897,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-var currencies = [{ key: "ETH", stroke: "#464678" }, { key: "BTC", stroke: "#ff7300" }];
-
 var styles = {
   chart: {
     margin: "0 auto"
@@ -59919,23 +59917,8 @@ var Chart = function (_Component) {
 
   _createClass(Chart, [{
     key: 'render',
-
-
-    /*
-    componentDidMount(){
-      var yearToFetch = new Date().getFullYear();
-      this.props.fetchPriceData(yearToFetch);
-    }
-    */
-
     value: function render() {
       console.log("FEData2 is ", _FEData2.default);
-      /*
-      const {PriceFeed} = this.props;
-       if(PriceFeed.length < 1) {
-        return <h2>Fetching Data...</h2>;
-      }
-      */
       return _react2.default.createElement(
         'div',
         null,
@@ -59957,9 +59940,8 @@ var Chart = function (_Component) {
           _react2.default.createElement(_recharts.YAxis, null),
           _react2.default.createElement(_recharts.XAxis, { interval: 0, minTickGap: 50, allowDataOverflow: false, dataKey: 'Month', ticks: months }),
           _react2.default.createElement(_recharts.Tooltip, { content: _utils.renderTooltip }),
-          currencies.map(function (currency) {
-            return _react2.default.createElement(_recharts.Line, { type: 'monotone', key: currency.key, dataKey: currency.key, stroke: currency.stroke });
-          })
+          _react2.default.createElement(_recharts.Line, { connectNulls: true, type: 'monotone', dataKey: 'ETH', stroke: '#464678' }),
+          _react2.default.createElement(_recharts.Line, { connectNulls: true, type: 'monotone', dataKey: 'BTC', stroke: '#ff7300' })
         )
       );
     }
