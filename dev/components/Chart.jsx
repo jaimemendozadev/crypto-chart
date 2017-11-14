@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {fetchPriceData} from '../actions/FetchPriceData.jsx';
+import {fetchCurrencyData} from '../actions/FetchCurrencyData.jsx';
 
 import {renderTooltip} from '../utils.js';
 import Legend from './Legend.jsx';
@@ -23,9 +23,22 @@ const styles = {
   }
 
 class Chart extends Component {
+  componentDidMount(){
+    var yearToFetch = new Date().getFullYear();
+    this.props.fetchCurrencyData(yearToFetch);
+  }
+
+
   
   render(){
-    console.log("FEData3 is ", FEData3)
+    console.log("the props inside Chart.jsx are ", this.props);
+
+    const {CurrencyData} = this.props;
+    
+    if(!CurrencyData["sorted"]) {
+      return <h2>Fetching Data...</h2>;
+    }
+
     return(
       <div>
         <h1 style={styles.header}>Crypto Currency Chart</h1>
@@ -35,7 +48,7 @@ class Chart extends Component {
           height={700}
 
           style={styles.chart}
-          data={FEData3} //PriceFeed
+          data={CurrencyData["sorted"]} //CurrencyData
           margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
         >
           <YAxis />
@@ -54,12 +67,12 @@ class Chart extends Component {
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({fetchPriceData}, dispatch);
+  return bindActionCreators({fetchCurrencyData}, dispatch);
 }
 
-function mapStateToProps({PriceFeed}){
+function mapStateToProps({CurrencyData}){
   return {
-    PriceFeed
+    CurrencyData
   }
 }
 

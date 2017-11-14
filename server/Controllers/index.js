@@ -1,4 +1,4 @@
-const {newCurrencyData, formatFrontEndData, sortCurrencyData} = require('../utils.js');
+const {formatFrontEndData, sortCurrencyData} = require('../utils.js');
 const moment = require('moment');
 const axios = require('axios');
 const currentDate = require('moment')();
@@ -9,6 +9,7 @@ const HEADERS = {headers: {"X-Mashape-Key": KEY, "Accept": "application/json"}};
 
 
 var fetchData = (req, res) => {
+  
   var requestYear = req.params.year;
   var currentYear = currentDate.year();
   var currentMonth = currentDate.month() + 1;
@@ -25,15 +26,12 @@ var fetchData = (req, res) => {
   axios.all([ETH, BTC])
     .then(axios.spread((eth, btc) => {
       
-      //archive data to DB? 
-      
-
       var FEData = {};
       FEData[requestYear] = {};
 
       [eth.data, btc.data].forEach((currencyData) => {
         
-        if(currencyData.length > 0){
+        if(currencyData.data.length > 0){
           var coinName = currencyData.coin_name;
           var result = formatFrontEndData(currencyData, requestYear);
   
@@ -50,20 +48,15 @@ var fetchData = (req, res) => {
 
     .then(dataObject => {
       //performing sorting here
-      sortCurrencyData(dataObject, currentMonth, requestYear)
-
-
-
-
+      return sortCurrencyData(dataObject, currentMonth, requestYear);
     })
     .then(finalData => {
-      console.log("data for FE ", JSON.stringify(finalData));
-      console.log("\n");
+      
       res.send(finalData);
     })
     .catch(error => {
       console.log("The error inside axios spread is ", error);
-      res.send("There was a problem fetching the currency data in Axios spread.");
+      res.send({error: "There was a problem fetching the currency data in Axios spread."});
     });
     
 }

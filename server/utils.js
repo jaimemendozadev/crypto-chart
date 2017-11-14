@@ -20,6 +20,7 @@ function getTimeStamp(TimeStamp){
 
 }
 
+
 function numberOfCalendarDays(month, year){
   var stringMonth = month < 10 ? `0${month}` : month;
   var calMonth = `${year}-${stringMonth}`;
@@ -28,7 +29,6 @@ function numberOfCalendarDays(month, year){
   return numOfDays
 
 }
-
 
 
 function createDataObject(price, dateString, monthString, coinName, coinSymbol) {
@@ -77,6 +77,26 @@ function formatFrontEndData(RawData, requestYear) {
 }
 
 
+function pluckCurrencyData(dataObject, requestYear, currencyName, month, day){
+  var data = dataObject[requestYear];
+
+  if (!data[currencyName]){
+    return undefined;
+  }
+
+  if(!data[currencyName][month]) {
+    return undefined;
+  }
+
+  if(!data[currencyName][month][day]) {
+    return undefined;
+  }
+
+  return data[currencyName][month][day];
+  
+}
+
+
 function sortCurrencyData(dataObject, currentMonth, requestYear){
   var newDataObj = dataObject;
 
@@ -91,13 +111,16 @@ function sortCurrencyData(dataObject, currentMonth, requestYear){
     
     //for every day in a month, push the dataObject of each currency
     for (var day = 0; day < numOfDays; day++){
-      if(dataObject["Ethereum"][month][day]){
-        sortedArray.push(dataObject["Ethereum"][month][day]);
-      }
-
-      if(dataObject["Bitcoin"][month][day]){
-        sortedArray.push(dataObject["Bitcoin"][month][day]);
-      }
+      
+      var ethereum = pluckCurrencyData(dataObject, requestYear, "Ethereum", month, day);
+      var bitcoin = pluckCurrencyData(dataObject, requestYear, "Bitcoin", month, day);
+      
+      if(ethereum !== undefined)
+        sortedArray.push(ethereum);
+      
+      if(bitcoin !== undefined)
+        sortedArray.push(bitcoin);
+  
     }
   }
 
@@ -107,10 +130,7 @@ function sortCurrencyData(dataObject, currentMonth, requestYear){
 
 }
 
-
-
 module.exports = {
-  newCurrencyData,
   formatFrontEndData,
   sortCurrencyData
 }

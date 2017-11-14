@@ -27740,44 +27740,7 @@ function verifyPlainObject(value, displayName, methodName) {
 }
 
 /***/ }),
-/* 242 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.FETCH_PRICE_DATA = undefined;
-exports.fetchPriceData = fetchPriceData;
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _axios = __webpack_require__(702);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var BASE_URL = 'http://localhost:3000/api/fetchpricedata/';
-
-var FETCH_PRICE_DATA = exports.FETCH_PRICE_DATA = 'FETCH_PRICE_DATA';
-
-function fetchPriceData(fetchYear) {
-  var fetchedData = _axios2.default.get('' + BASE_URL + fetchYear).then(function (response) {
-    return response.data;
-  });
-
-  return {
-    type: FETCH_PRICE_DATA,
-    payload: fetchedData
-  };
-}
-
-/***/ }),
+/* 242 */,
 /* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -59875,7 +59838,7 @@ var _redux = __webpack_require__(85);
 
 var _reactRedux = __webpack_require__(237);
 
-var _FetchPriceData = __webpack_require__(242);
+var _FetchCurrencyData = __webpack_require__(733);
 
 var _utils = __webpack_require__(721);
 
@@ -59916,9 +59879,27 @@ var Chart = function (_Component) {
   }
 
   _createClass(Chart, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var yearToFetch = new Date().getFullYear();
+      this.props.fetchCurrencyData(yearToFetch);
+    }
+  }, {
     key: 'render',
     value: function render() {
-      console.log("FEData3 is ", _FEData2.default);
+      console.log("the props inside Chart.jsx are ", this.props);
+
+      var CurrencyData = this.props.CurrencyData;
+
+
+      if (!CurrencyData["sorted"]) {
+        return _react2.default.createElement(
+          'h2',
+          null,
+          'Fetching Data...'
+        );
+      }
+
       return _react2.default.createElement(
         'div',
         null,
@@ -59934,7 +59915,7 @@ var Chart = function (_Component) {
             height: 700,
 
             style: styles.chart,
-            data: _FEData2.default //PriceFeed
+            data: CurrencyData["sorted"] //CurrencyData
             , margin: { top: 5, right: 20, left: 10, bottom: 5 }
           },
           _react2.default.createElement(_recharts.YAxis, null),
@@ -59951,14 +59932,14 @@ var Chart = function (_Component) {
 }(_react.Component);
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchPriceData: _FetchPriceData.fetchPriceData }, dispatch);
+  return (0, _redux.bindActionCreators)({ fetchCurrencyData: _FetchCurrencyData.fetchCurrencyData }, dispatch);
 }
 
 function mapStateToProps(_ref) {
-  var PriceFeed = _ref.PriceFeed;
+  var CurrencyData = _ref.CurrencyData;
 
   return {
-    PriceFeed: PriceFeed
+    CurrencyData: CurrencyData
   };
 }
 
@@ -77325,52 +77306,20 @@ var _react2 = _interopRequireDefault(_react);
 
 var _redux = __webpack_require__(85);
 
-var _SetPriceData = __webpack_require__(726);
+var _SetCurrencyData = __webpack_require__(734);
 
-var _SetPriceData2 = _interopRequireDefault(_SetPriceData);
+var _SetCurrencyData2 = _interopRequireDefault(_SetCurrencyData);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RootReducer = (0, _redux.combineReducers)({
-  PriceFeed: _SetPriceData2.default
+  CurrencyData: _SetCurrencyData2.default
 });
 
 exports.default = RootReducer;
 
 /***/ }),
-/* 726 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = SetPriceData;
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _FetchPriceData = __webpack_require__(242);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function SetPriceData() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var action = arguments[1];
-
-  switch (action.type) {
-    case _FetchPriceData.FETCH_PRICE_DATA:
-      console.log("the payload is ", action.payload);
-      return action.payload;
-  }
-
-  return state;
-}
-
-/***/ }),
+/* 726 */,
 /* 727 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -77926,6 +77875,79 @@ function isNative(value) {
 
 module.exports = isArray;
 
+
+/***/ }),
+/* 733 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FETCH_CURRENCY_DATA = undefined;
+exports.fetchCurrencyData = fetchCurrencyData;
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _axios = __webpack_require__(702);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var BASE_URL = 'http://localhost:3000/api/fetchpricedata/';
+
+var FETCH_CURRENCY_DATA = exports.FETCH_CURRENCY_DATA = 'FETCH_CURRENCY_DATA';
+
+function fetchCurrencyData(fetchYear) {
+  var fetchedData = _axios2.default.get('' + BASE_URL + fetchYear).then(function (response) {
+    return response.data;
+  }).catch(function (error) {
+    console.log("Error fetching API Data ", error);
+  });
+
+  return {
+    type: FETCH_CURRENCY_DATA,
+    payload: fetchedData
+  };
+}
+
+/***/ }),
+/* 734 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = SetCurrencyData;
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _FetchCurrencyData = __webpack_require__(733);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function SetCurrencyData() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _FetchCurrencyData.FETCH_CURRENCY_DATA:
+      console.log("the payload is ", action.payload);
+      return action.payload;
+  }
+
+  return state;
+}
 
 /***/ })
 /******/ ]);

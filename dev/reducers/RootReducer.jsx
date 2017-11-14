@@ -1,9 +1,9 @@
 import React from 'react';
 import {combineReducers} from 'redux';
-import SetPriceData from './SetPriceData.jsx';
+import SetCurrencyData from './SetCurrencyData.jsx';
 
 const RootReducer = combineReducers({
-  PriceFeed: SetPriceData
+  CurrencyData: SetCurrencyData
 });
 
 export default RootReducer;
