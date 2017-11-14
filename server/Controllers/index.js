@@ -1,8 +1,6 @@
-const newCurrencyData = require('../utils.js').newCurrencyData;
+const {newCurrencyData, formatFrontEndData, sortCurrencyData} = require('../utils.js');
 const moment = require('moment');
 const axios = require('axios');
-
-const formatFrontEndData = require('../utils.js').formatFrontEndData;
 const currentDate = require('moment')();
 const BRAVECOIN_URL = process.env.BRAVECOIN_URL;
 const KEY = process.env.X_MASHAPE_KEY;
@@ -13,6 +11,7 @@ const HEADERS = {headers: {"X-Mashape-Key": KEY, "Accept": "application/json"}};
 var fetchData = (req, res) => {
   var requestYear = req.params.year;
   var currentYear = currentDate.year();
+  var currentMonth = currentDate.month() + 1;
 
   var start = moment(`1-1-${currentYear}`, "M-D-YYYY").format('X');
   var end = currentDate.format('X');
@@ -26,25 +25,34 @@ var fetchData = (req, res) => {
   axios.all([ETH, BTC])
     .then(axios.spread((eth, btc) => {
       
-      if (requestYear < currentYear) {
-        //archive data to DB    
-      }
+      //archive data to DB? 
       
-      var dataForFrontEnd = [];
+
+      var FEData = {};
+      FEData[requestYear] = {};
 
       [eth.data, btc.data].forEach((currencyData) => {
-        var result = formatFrontEndData(currencyData, requestYear);
         
-        dataForFrontEnd = dataForFrontEnd.concat(result);
-        
+        if(currencyData.length > 0){
+          var coinName = currencyData.coin_name;
+          var result = formatFrontEndData(currencyData, requestYear);
+  
+          if(!FEData[requestYear][coinName]){
+            FEData[requestYear][coinName] = result;
+          }
+        }
+                
       });
 
-      return dataForFrontEnd;
+      return FEData;
 
     }))
 
-    .then(dataForSorting => {
+    .then(dataObject => {
       //performing sorting here
+      sortCurrencyData(dataObject, currentMonth, requestYear)
+
+
 
 
     })

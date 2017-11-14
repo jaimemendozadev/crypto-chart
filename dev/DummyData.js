@@ -1,32 +1,20 @@
 var moment = require('moment');
 var rawData = require('./RawData.json');
 var _ = require('lodash');
+const currencies = ["Ethereum", "Bitcoin"];
 
-function newCurrencyData(year){
+function newCurrencyObject(currencyName){
   var currencyData = {};
-
-  currencyData[year] = {
-    1:{},
-    2:{},
-    3:{},
-    4:{},
-    5:{},
-    6:{},
-    7:{},
-    8:{},
-    9:{},
-    10:{},
-    11:{},
-    12:{},
-  }
-  
+  currencyData[currencyName] = {};
 
   return currencyData;
-
 };
 
-function createTimeStampArray(TimeStamp){
-  var monthInt, monthString, day, year; 
+
+
+
+function getTimeStamp(TimeStamp){
+  var monthInt, monthString, year; 
 
   //format the TimeStamp for each data object
   var dateString = moment.unix(TimeStamp).format("MM-DD-YYYY");
@@ -36,65 +24,64 @@ function createTimeStampArray(TimeStamp){
   var dateArray = dateString.split("-").map(num => parseInt(num, 10));
 
   //destruct dateArray into new variables
-  [monthInt, day, year] = dateArray;
+  [monthInt, , year] = dateArray;
   monthString = moment.months(monthInt - 1); 
 
-  return [dateString, monthInt, monthString, day, year];
+  return [dateString, monthInt, monthString, year];
 
 }
 
 
 
-function createDataObject(priceObj, requestYear, coinName, coinSymbol) {
-    var dateString, monthInt, monthString, day, year; 
-    var price = parseFloat(priceObj[4]);
+function createDataObject(price, dateString, monthString, coinName, coinSymbol) {
+    var price = parseFloat(price);
+      
+    var newDataObj = { date: dateString }  
+
+    newDataObj["Month"] = monthString;
+    newDataObj["coinName"] = coinName;
+    newDataObj[coinSymbol] = price;  
+
+    return newDataObj;
   
-    [dateString, monthInt, monthString, day, year] = createTimeStampArray(priceObj[0]);
+}
+  
+  
+function formatFrontEndData(RawData, requestYear) {
+  
+  var coinName = RawData.coin_name;
+  var coinSymbol = RawData.coin_symbol;
+
+  var FrontEndData = newCurrencyObject(coinName);
+  
+
+  RawData.data.forEach(priceObj => {
+
+    var [dateString, monthInt, monthString, year] = getTimeStamp(priceObj[0]);
     
+    if (!FrontEndData[coinName][monthInt]){
+      FrontEndData[coinName][monthInt] = [];
+    }
+
     //handle edge case that we have data from previous or future years
     if(year == requestYear){
-    
-      var newDataObj = { date: dateString }  
-  
-      newDataObj["Month"] = monthString;
-      newDataObj["coinName"] = coinName;
-      newDataObj[coinSymbol] = price;  
-  
-      //DataToArchive[year][monthInt][day] = newDataObj; 
+      var dataObj = createDataObject(priceObj[4], dateString, monthString, coinName, coinSymbol);
       
-      return newDataObj;
-    } 
-  
-    //Date of priceObj is before or after requestYear, return
-    return;
-  }
-  
-  
-  function formatFrontEndData(RawData, requestYear) {
-    var FrontEndData = [];
+    }
     
-
-    var coinName = RawData.coin_name;
-    var coinSymbol = RawData.coin_symbol;
-    
-    RawData.data.forEach(priceObj => {
-      var dataObj = createDataObject(priceObj, requestYear, coinName, coinSymbol);
-
-      console.log("the dataObj is ", dataObj)
-      
-      //only push to FEData array if we get an object
-      if (dataObj)
-        FrontEndData.push(dataObj);
-      
-    });
-    
-    return FrontEndData;
-  }
+    //only push to FEData array if we get an object
+    if (dataObj){
+      FrontEndData[coinName][monthInt].push(dataObj);
+    }
+       
+  });
+  
+  return FrontEndData;
+}
 
 
-  var result = formatFrontEndData(rawData, 2016);
 
-  //console.log("the result is ", result)
+
 
 
 
