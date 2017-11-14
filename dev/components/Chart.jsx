@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
-import { LineChart, Line, XAxis, Tooltip } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {fetchPriceData} from '../actions/FetchPriceData.jsx';
+import {fetchCurrencyData} from '../actions/FetchCurrencyData.jsx';
 
 import {renderTooltip} from '../utils.js';
 import Legend from './Legend.jsx';
+import FEData3 from '../FEData3.js';
 
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 
 const styles = {
     chart: {
@@ -21,35 +23,43 @@ const styles = {
   }
 
 class Chart extends Component {
-  
   componentDidMount(){
     var yearToFetch = new Date().getFullYear();
-    this.props.fetchPriceData(yearToFetch);
+    this.props.fetchCurrencyData(yearToFetch);
   }
+
+
   
   render(){
-    const {PriceFeed} = this.props;
+    console.log("the props inside Chart.jsx are ", this.props);
 
-    if(PriceFeed.length < 1) {
+    const {CurrencyData} = this.props;
+    
+    if(!CurrencyData["sorted"]) {
       return <h2>Fetching Data...</h2>;
     }
+
     return(
       <div>
-        {console.log("the PriceFeed is ", PriceFeed)}
         <h1 style={styles.header}>Crypto Currency Chart</h1>
-        <Legend />
+        
         <LineChart
           width={1200}
-          height={800}
+          height={700}
+
           style={styles.chart}
-          data={PriceFeed} 
+          data={CurrencyData["sorted"]} //CurrencyData
           margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
         >
+          <YAxis />
+
           <XAxis dataKey="Month" ticks={months} />
           <Tooltip content={renderTooltip} />
-  
-          <Line type="monotone" dataKey="ETH" stroke="#464678" />
-          <Line type="monotone" dataKey="BTC" stroke="#ff7300" />
+
+     
+
+          <Line connectNulls={true} type="monotone" dataKey="ETH" stroke="#464678" />
+          <Line connectNulls={true} type="monotone" dataKey="BTC" stroke="#ff7300" /> 
         </LineChart>
       </div>
     )
@@ -57,12 +67,12 @@ class Chart extends Component {
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({fetchPriceData}, dispatch);
+  return bindActionCreators({fetchCurrencyData}, dispatch);
 }
 
-function mapStateToProps({PriceFeed}){
+function mapStateToProps({CurrencyData}){
   return {
-    PriceFeed
+    CurrencyData
   }
 }
 
