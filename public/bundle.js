@@ -39712,7 +39712,7 @@ var _Chart = __webpack_require__(382);
 
 var _Chart2 = _interopRequireDefault(_Chart);
 
-var _RootReducer = __webpack_require__(724);
+var _RootReducer = __webpack_require__(725);
 
 var _RootReducer2 = _interopRequireDefault(_RootReducer);
 
@@ -39720,7 +39720,7 @@ var _redux = __webpack_require__(85);
 
 var _reactRedux = __webpack_require__(237);
 
-var _reduxPromise = __webpack_require__(726);
+var _reduxPromise = __webpack_require__(727);
 
 var _reduxPromise2 = _interopRequireDefault(_reduxPromise);
 
@@ -77297,7 +77297,8 @@ var Legend = function (_Component) {
 exports.default = Legend;
 
 /***/ }),
-/* 724 */
+/* 724 */,
+/* 725 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77313,7 +77314,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _redux = __webpack_require__(85);
 
-var _SetPriceData = __webpack_require__(725);
+var _SetPriceData = __webpack_require__(726);
 
 var _SetPriceData2 = _interopRequireDefault(_SetPriceData);
 
@@ -77326,7 +77327,7 @@ var RootReducer = (0, _redux.combineReducers)({
 exports.default = RootReducer;
 
 /***/ }),
-/* 725 */
+/* 726 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77359,7 +77360,7 @@ function SetPriceData() {
 }
 
 /***/ }),
-/* 726 */
+/* 727 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77371,7 +77372,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 exports['default'] = promiseMiddleware;
 
-var _fluxStandardAction = __webpack_require__(727);
+var _fluxStandardAction = __webpack_require__(728);
 
 function isPromise(val) {
   return val && typeof val.then === 'function';
@@ -77398,7 +77399,7 @@ function promiseMiddleware(_ref) {
 module.exports = exports['default'];
 
 /***/ }),
-/* 727 */
+/* 728 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77410,7 +77411,7 @@ exports.isError = isError;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _lodashIsplainobject = __webpack_require__(728);
+var _lodashIsplainobject = __webpack_require__(729);
 
 var _lodashIsplainobject2 = _interopRequireDefault(_lodashIsplainobject);
 
@@ -77429,7 +77430,7 @@ function isError(action) {
 }
 
 /***/ }),
-/* 728 */
+/* 729 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -77440,9 +77441,9 @@ function isError(action) {
  * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  * Available under MIT license <https://lodash.com/license>
  */
-var baseFor = __webpack_require__(729),
+var baseFor = __webpack_require__(730),
     isArguments = __webpack_require__(366),
-    keysIn = __webpack_require__(730);
+    keysIn = __webpack_require__(731);
 
 /** `Object#toString` result references. */
 var objectTag = '[object Object]';
@@ -77538,7 +77539,7 @@ module.exports = isPlainObject;
 
 
 /***/ }),
-/* 729 */
+/* 730 */
 /***/ (function(module, exports) {
 
 /**
@@ -77592,7 +77593,7 @@ module.exports = baseFor;
 
 
 /***/ }),
-/* 730 */
+/* 731 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -77604,7 +77605,7 @@ module.exports = baseFor;
  * Available under MIT license <https://lodash.com/license>
  */
 var isArguments = __webpack_require__(366),
-    isArray = __webpack_require__(731);
+    isArray = __webpack_require__(732);
 
 /** Used to detect unsigned integer values. */
 var reIsUint = /^\d+$/;
@@ -77730,7 +77731,7 @@ module.exports = keysIn;
 
 
 /***/ }),
-/* 731 */
+/* 732 */
 /***/ (function(module, exports) {
 
 /**
