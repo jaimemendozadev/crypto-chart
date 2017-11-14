@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 var data = [
     {date: "01-01-2017", Month: "January",coinName:"Ethereum",ETH:8.23297867},
     {date: "01-01-2017", Month: "January",coinName:"Bitcoin",BTC:1012.09163237},
@@ -65,5 +64,7 @@ var data = [
     {date: "01-31-2017", Month: "January",coinName:"Ethereum",ETH:10.64498995},
     {date: "01-31-2017", Month: "January",coinName:"Bitcoin",BTC:981.20375431},
 ];
+
+
 
 export default data;

@@ -2,9 +2,6 @@ var moment = require('moment');
 var rawData = require('./RawData.json');
 var _ = require('lodash');
 
-//var newCurrencyData = require('./utils.js').newCurrencyData;
-
-
 function newCurrencyData(year){
   var currencyData = {};
 
@@ -28,91 +25,83 @@ function newCurrencyData(year){
 
 };
 
+function createTimeStampArray(TimeStamp){
+  var monthInt, monthString, day, year; 
 
-
-
-
-//when we request data for an entire year, we pass some year param in api call
-
-var yearParam = '2016';
-
-var monthInt, monthString, day, year; 
-
-var yearOfData = {};
-var dataForFrontEnd = [];
-
-
-//if we don't find year in DB, create new yearOfData object
-if (!yearOfData[yearParam]) {
-  yearOfData = newCurrencyData(yearParam);
-
-}
-
-rawData.data.forEach(priceObj => {
-  var coinSymbol = rawData.coin_symbol;
-  var coinName = rawData.coin_name;
-
-  //format the date for each data object
-  var dateString = moment.unix(priceObj[0]).format("MM-DD-YYYY");
-
+  //format the TimeStamp for each data object
+  var dateString = moment.unix(TimeStamp).format("MM-DD-YYYY");
+  
+  
   //convert date strings into integers, store in an array
   var dateArray = dateString.split("-").map(num => parseInt(num, 10));
-  
-  console.log("dateArray is ", dateArray);
-  
+
   //destruct dateArray into new variables
   [monthInt, day, year] = dateArray;
-  monthString = moment.months(monthInt - 1);
-  
+  monthString = moment.months(monthInt - 1); 
 
-  //handle edge case that we have data from previous or future years
-  if(year == yearParam){
-    //save data to DB && format data for FE
-    var price = parseFloat(priceObj[4]);
-    
-    var dataToSave = { date: dateString };
-    yearOfData[year][monthInt][day] = dataToSave;
+  return [dateString, monthInt, monthString, day, year];
 
-    dataToSave["Month"] = monthString;
-    dataToSave["coinName"] = coinName;
-    dataToSave[coinSymbol] = price;
-
-    dataForFrontEnd.push(dataToSave);
-
-  }
-
-});
-
-
-
-/* Raw Data Response
-{
-    "success": true,
-    "source": "BraveNewCoin",
-    "time_stamp": 1509754579,
-    "utc_date": "2017-11-04 00:16:19",
-    "coin_symbol": "ETH",
-    "coin_name": "Ethereum",
-    "market_symbol": "USD",
-    "market_name": "United States Dollar",
-    "column_names": [
-        "timestamp",
-        "open",
-        "high",
-        "low",
-        "close",
-        "volume",
-        "volume_usd",
-        "vwap",
-        "twap"
-    ],
-    "price_currency": "USD",
-    "price_currency_name": "United States Dollar",
-    "data": [["strings of data"]
-    ]
 }
 
-*/
+
+
+function createDataObject(priceObj, requestYear, coinName, coinSymbol) {
+    var dateString, monthInt, monthString, day, year; 
+    var price = parseFloat(priceObj[4]);
+  
+    [dateString, monthInt, monthString, day, year] = createTimeStampArray(priceObj[0]);
+    
+    //handle edge case that we have data from previous or future years
+    if(year == requestYear){
+    
+      var newDataObj = { date: dateString }  
+  
+      newDataObj["Month"] = monthString;
+      newDataObj["coinName"] = coinName;
+      newDataObj[coinSymbol] = price;  
+  
+      //DataToArchive[year][monthInt][day] = newDataObj; 
+      
+      return newDataObj;
+    } 
+  
+    //Date of priceObj is before or after requestYear, return
+    return;
+  }
+  
+  
+  function formatFrontEndData(RawData, requestYear) {
+    var FrontEndData = [];
+    
+
+    var coinName = RawData.coin_name;
+    var coinSymbol = RawData.coin_symbol;
+    
+    RawData.data.forEach(priceObj => {
+      var dataObj = createDataObject(priceObj, requestYear, coinName, coinSymbol);
+
+      console.log("the dataObj is ", dataObj)
+      
+      //only push to FEData array if we get an object
+      if (dataObj)
+        FrontEndData.push(dataObj);
+      
+    });
+    
+    return FrontEndData;
+  }
+
+
+  var result = formatFrontEndData(rawData, 2016);
+
+  //console.log("the result is ", result)
+
+
+
+
+
+
+
 
 
 /* Proposed CryptoCoin Data Structure for DB
@@ -130,20 +119,8 @@ rawData.data.forEach(priceObj => {
 
 */
 
-console.log("yearOfData is ", yearOfData)
 
-var formatByMonth = _.mapKeys(dataForFrontEnd, 'Month');
-
-//console.log("dataForFrontEnd is ", dataForFrontEnd);
+// var formatByMonth = _.mapKeys(dataForFrontEnd, 'Month');
+// var dateA = moment().subtract(7, 'days');
 
 
-
-
-var dateA = moment().subtract(7, 'days');
-
-//console.log(dateA.format("MM-DD-YYYY"))
-
-//console.log(moment(1451779200).format("MM-DD-YYYY"))
-
-
-module.exports = dataForFrontEnd;

@@ -94,6 +94,13 @@ function formatFrontEndData(RawData, requestYear) {
   return FrontEndData;
 }
 
+
+function sortCurrencies(currencyArray){
+  
+}
+
+
+
 module.exports = {
   newCurrencyData,
   formatFrontEndData
