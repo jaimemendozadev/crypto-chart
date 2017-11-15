@@ -1,5 +1,9 @@
 const moment = require('moment');
+const axios = require('axios');
 const currentDate = moment();
+const BRAVECOIN_URL = process.env.BRAVECOIN_URL;
+const KEY = process.env.X_MASHAPE_KEY;
+const HEADERS = {headers: {"X-Mashape-Key": KEY, "Accept": "application/json"}};
 
 
 function getTimeStamp(TimeStamp){
@@ -97,7 +101,7 @@ function pluckCurrencyData(dataObject, requestYear, currencyName, month, day){
 }
 
 
-function sortCurrencyData(dataObject, currentMonth, requestYear){
+function sortCurrencyData(dataObject, upTo, requestYear){
   var newDataObj = dataObject;
 
   newDataObj["sorted"] = null;
@@ -105,7 +109,7 @@ function sortCurrencyData(dataObject, currentMonth, requestYear){
   var sortedArray = [];
   
   //for each month, starting with earliest
-  for (var month = 1; month <= currentMonth; month++) {
+  for (var month = 1; month <= upTo; month++) {
 
     var numOfDays = numberOfCalendarDays(month, requestYear)
     
@@ -130,7 +134,59 @@ function sortCurrencyData(dataObject, currentMonth, requestYear){
 
 }
 
+
+function fetchData(requestYear, res, getArchive = false){
+
+  var start = moment(`1-1-${requestYear}`, "M-D-YYYY").format('X');
+  var end = (getArchive == true) ? moment(`12-31-${requestYear}`, "MM-DD-YYYY").format('X') : currentDate.format('X');
+
+  var upTo = (getArchive == true) ? 12 : currentDate.month() + 1;
+
+
+  
+  //make api calls here
+  var ETH = axios.get(`${BRAVECOIN_URL}?coin=ETH&from=${start}&market=USD&to=${end}`, HEADERS);
+  var BTC = axios.get(`${BRAVECOIN_URL}?coin=BTC&from=${start}&market=USD&to=${end}`, HEADERS);
+ 
+  
+  axios.all([ETH, BTC])
+    .then(axios.spread((eth, btc) => {
+    
+      var FEData = {};
+      FEData[requestYear] = {};
+  
+      [eth.data, btc.data].forEach((currencyData) => {
+        
+        if(currencyData.data.length > 0){
+          var coinName = currencyData.coin_name;
+          var result = formatFrontEndData(currencyData, requestYear);
+  
+          if(!FEData[requestYear][coinName]){
+            FEData[requestYear][coinName] = result;
+          }
+        }
+                
+      });
+  
+      return FEData;
+
+    }))
+    .then(dataObject => {
+      //performing sorting here
+      return sortCurrencyData(dataObject, upTo, requestYear);
+    })
+    .then(finalData => {
+      res.send(finalData);
+    })
+    .catch(error => {
+      console.log("The error inside axios spread is ", error);
+      res.send({error: "There was a problem fetching the currency data in Axios spread."});
+    });
+
+  
+}
+
+
 module.exports = {
-  formatFrontEndData,
-  sortCurrencyData
+  fetchData
 }

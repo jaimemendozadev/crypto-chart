@@ -1,9 +1,9 @@
 const Router = require('express').Router();
-const fetchData = require('../Controllers').fetchData;
+const {fetchCurrencyData} = require('../Controllers');
 
 
 
-Router.get('/fetchcurrencydata/:year', fetchData);
+Router.get('/fetchcurrencydata/:year', fetchCurrencyData);
 
 
 module.exports = Router;
