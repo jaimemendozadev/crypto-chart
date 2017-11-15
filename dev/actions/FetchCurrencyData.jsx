@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000/api/fetchpricedata/';
+const BASE_URL = 'http://localhost:3000/api/fetchcurrencydata/';
 
 export const FETCH_CURRENCY_DATA = 'FETCH_CURRENCY_DATA';
 

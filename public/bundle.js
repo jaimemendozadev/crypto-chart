@@ -77899,7 +77899,7 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var BASE_URL = 'http://localhost:3000/api/fetchpricedata/';
+var BASE_URL = 'http://localhost:3000/api/fetchcurrencydata/';
 
 var FETCH_CURRENCY_DATA = exports.FETCH_CURRENCY_DATA = 'FETCH_CURRENCY_DATA';
 

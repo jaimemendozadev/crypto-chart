@@ -3,7 +3,7 @@ const fetchData = require('../Controllers').fetchData;
 
 
 
-Router.get('/fetchpricedata/:year', fetchData);
+Router.get('/fetchcurrencydata/:year', fetchData);
 
 
 module.exports = Router;

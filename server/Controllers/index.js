@@ -51,7 +51,8 @@ var fetchData = (req, res) => {
       return sortCurrencyData(dataObject, currentMonth, requestYear);
     })
     .then(finalData => {
-      
+      console.log("finalData from BE ", JSON.stringify(finalData));
+      console.log("\n");
       res.send(finalData);
     })
     .catch(error => {
