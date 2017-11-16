@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Chart from './components/Chart.jsx';
+import Main from './Main.js';
 import RootReducer from './reducers/RootReducer.jsx';
 import {applyMiddleware, createStore} from 'redux';
 import {Provider} from 'react-redux';
 import promiseMiddleware from 'redux-promise';
+import './styles/styles.scss';
 
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware)(createStore);
 
@@ -12,6 +13,6 @@ const createStoreWithMiddleware = applyMiddleware(promiseMiddleware)(createStore
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(RootReducer)}>
-    <Chart />
+    <Main />
   </Provider>
   , document.querySelector('.container'));
