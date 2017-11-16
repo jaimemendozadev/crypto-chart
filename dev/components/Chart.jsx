@@ -24,7 +24,7 @@ const styles = {
 
 class Chart extends Component {
   componentDidMount(){
-    var yearToFetch = new Date().getFullYear();
+    var yearToFetch = new Date().getFullYear();    
     this.props.fetchCurrencyData(yearToFetch);
   }
 

@@ -1,6 +1,7 @@
 const moment = require('moment');
 const axios = require('axios');
 const currentDate = moment();
+const {saveDataInDB} = require('./utils.js');
 const BRAVECOIN_URL = process.env.BRAVECOIN_URL;
 const KEY = process.env.X_MASHAPE_KEY;
 const HEADERS = {headers: {"X-Mashape-Key": KEY, "Accept": "application/json"}};
@@ -74,7 +75,6 @@ function formatFrontEndData(RawData, requestYear) {
     if (dataObj){
       FrontEndData[monthInt].push(dataObj);
     }
-       
   });
   
   return FrontEndData;
@@ -135,7 +135,7 @@ function sortCurrencyData(dataObject, upTo, requestYear){
 }
 
 
-function fetchData(requestYear, res, getArchive = false){
+function fetchData(requestYear, res, getArchive = false, saveInDB = false){
 
   var start = moment(`1-1-${requestYear}`, "M-D-YYYY").format('X');
   var end = (getArchive == true) ? moment(`12-31-${requestYear}`, "MM-DD-YYYY").format('X') : currentDate.format('X');
@@ -176,6 +176,11 @@ function fetchData(requestYear, res, getArchive = false){
       return sortCurrencyData(dataObject, upTo, requestYear);
     })
     .then(finalData => {
+      
+      if (saveInDB == true){
+        saveDataInDB(requestYear, finalData);
+      }
+
       res.send(finalData);
     })
     .catch(error => {
@@ -187,6 +192,4 @@ function fetchData(requestYear, res, getArchive = false){
 }
 
 
-module.exports = {
-  fetchData
-}
+module.exports = {fetchData};
