@@ -1,9 +1,24 @@
 body {
   margin: 0;
+  .header {
+    width: 100%;
+    height: 300px;
+    background-color: rgb(110, 54, 187); 
+    
+  }
 }
-.header {
-  width: 100%;
-  height: 300px;
-  background-color: rgb(110, 54, 187); 
-  
+
+
+.chart {
+  margin: 0 auto;
+
+  h1 {
+    text-align: center;
+  }
 }
+
+
+
+
+
+
