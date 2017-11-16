@@ -59901,7 +59901,7 @@ var Chart = function Chart(_ref) {
       {
         width: 1200,
         height: 700,
-        data: CurrencyData["sorted"],
+        data: CurrencyData,
         margin: { top: 20, right: 20, left: 10, bottom: 5 }
       },
       _react2.default.createElement(_recharts.YAxis, null),
@@ -77790,6 +77790,21 @@ var Main = function (_Component) {
   }
 
   _createClass(Main, [{
+    key: 'displaySpinner',
+    value: function displaySpinner() {
+      return _react2.default.createElement(
+        'h2',
+        null,
+        'Fetching Data...'
+      );
+    }
+  }, {
+    key: 'displayChart',
+    value: function displayChart(incomingData) {
+
+      return _react2.default.createElement(_Chart2.default, { CurrencyData: incomingData });
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var yearToFetch = new Date().getFullYear();
@@ -77798,24 +77813,16 @@ var Main = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log("the props inside Chart.jsx are ", this.props);
+      console.log("the props inside Main.js are ", this.props);
 
       var CurrencyData = this.props.CurrencyData;
 
-
-      if (!CurrencyData["sorted"]) {
-        return _react2.default.createElement(
-          'h2',
-          null,
-          'Fetching Data...'
-        );
-      }
 
       return _react2.default.createElement(
         'div',
         { className: 'body' },
         _react2.default.createElement('div', { className: 'header' }),
-        _react2.default.createElement(_Chart2.default, { CurrencyData: CurrencyData })
+        !CurrencyData["sorted"] ? this.displaySpinner() : this.displayChart(CurrencyData["sorted"])
       );
     }
   }]);
@@ -77862,29 +77869,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var style = {
-  formContainer: {
-    width: "400px",
-    height: "200px",
-    margin: "0 auto",
-    padding: "1em"
-  },
-
-  formControl: {
-    display: "block",
-    width: "80%",
-    height: "30px",
-    padding: "6px 12px",
-    fontSize: "14px",
-    lineHeight: 1.42857143,
-    color: "#555",
-    backgroundColor: "#fff",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    margin: 0
-  }
-};
-
 var Legend = function (_Component) {
   _inherits(Legend, _Component);
 
@@ -77906,7 +77890,7 @@ var Legend = function (_Component) {
   }
 
   _createClass(Legend, [{
-    key: "handleYearChange",
+    key: 'handleYearChange',
     value: function handleYearChange(event) {
       console.log("event is ", event.target.value);
 
@@ -77915,7 +77899,7 @@ var Legend = function (_Component) {
       });
     }
   }, {
-    key: "handleMonthChange",
+    key: 'handleMonthChange',
     value: function handleMonthChange(event) {
       console.log("event is ", event.target.value);
 
@@ -77924,33 +77908,32 @@ var Legend = function (_Component) {
       });
     }
   }, {
-    key: "handleSubmit",
+    key: 'handleSubmit',
     value: function handleSubmit(event) {
       event.preventDefault();
-      console.log("yaaaay");
-      return _react2.default.createElement("div", null);
+      return _react2.default.createElement('div', null);
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "form",
-        { onSubmit: this.handleSubmit, style: style.formContainer },
+        'form',
+        { className: 'formContainer', onSubmit: this.handleSubmit },
         _react2.default.createElement(
-          "label",
+          'label',
           null,
-          "Year to Fetch Data:"
+          'Year to Fetch Data:'
         ),
-        _react2.default.createElement("input", { style: style.formControl, value: this.state.yearToFetch, onChange: this.handleYearChange }),
+        _react2.default.createElement('input', { value: this.state.yearToFetch, onChange: this.handleYearChange }),
         _react2.default.createElement(
-          "div",
+          'div',
           { style: { marginTop: "1em" } },
           _react2.default.createElement(
-            "label",
+            'label',
             null,
-            "Enter the Month to Filter the Data"
+            'Enter the Month to Filter the Data'
           ),
-          _react2.default.createElement("input", { style: style.formControl, value: this.state.monthToFilter, onChange: this.handleMonthChange })
+          _react2.default.createElement('input', { value: this.state.monthToFilter, onChange: this.handleMonthChange })
         )
       );
     }

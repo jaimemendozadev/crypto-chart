@@ -8,24 +8,34 @@ import Chart from '../components/Chart.jsx';
 
 class Main extends Component {
 
+  displaySpinner(){
+    return (
+      <h2>Fetching Data...</h2>
+    )
+  }
+
+  displayChart(incomingData){
+    
+    return (
+      <Chart CurrencyData={incomingData} />
+    )
+    
+  }
+
   componentDidMount(){
     var yearToFetch = new Date().getFullYear();    
     this.props.fetchCurrencyData(2016);
   }
 
   render(){
-    console.log("the props inside Chart.jsx are ", this.props);
+    console.log("the props inside Main.js are ", this.props);
     
     const {CurrencyData} = this.props;
-        
-    if(!CurrencyData["sorted"]) {
-      return <h2>Fetching Data...</h2>;
-    }
     
     return(
       <div className="body">
         <div className="header" />
-        <Chart CurrencyData={CurrencyData} />
+        {!CurrencyData["sorted"] ? this.displaySpinner() : this.displayChart(CurrencyData["sorted"])}
       </div>
     )
   }

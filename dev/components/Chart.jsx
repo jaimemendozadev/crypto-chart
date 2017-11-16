@@ -16,7 +16,7 @@ const Chart = ({CurrencyData}) => {
       <LineChart
         width={1200}
         height={700}
-        data={CurrencyData["sorted"]}
+        data={CurrencyData}
         margin={{ top: 20, right: 20, left: 10, bottom: 5 }}
       >
         <YAxis />

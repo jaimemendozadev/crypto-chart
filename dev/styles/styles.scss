@@ -17,6 +17,26 @@ body {
   }
 }
 
+.formContainer {
+  width: 400px;
+  height: 200px;
+  margin: 0 auto;
+  padding: 1em;
+
+  input {
+    display: block;
+    width: 80%;
+    height: 30px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0
+  }
+}
 
 
 
