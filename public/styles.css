@@ -27,3 +27,11 @@ body {
     border: 1px solid #ccc;
     border-radius: 4px;
     margin: 0; }
+
+.spinner {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  font: 1.5em; }
+  .spinner img {
+    margin: 0 auto; }

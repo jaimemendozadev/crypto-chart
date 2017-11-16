@@ -5,21 +5,21 @@ import {fetchCurrencyData} from '../actions/FetchCurrencyData.jsx';
 import Chart from '../components/Chart.jsx';
 
 
-
 class Main extends Component {
 
   displaySpinner(){
     return (
-      <h2>Fetching Data...</h2>
+      <div className="spinner">
+        <h2>Please wait while we fetch the data...</h2>
+        <img src="/imgs/spinner.gif" />
+      </div>
     )
   }
 
   displayChart(incomingData){
-    
     return (
       <Chart CurrencyData={incomingData} />
     )
-    
   }
 
   componentDidMount(){
@@ -28,7 +28,6 @@ class Main extends Component {
   }
 
   render(){
-    console.log("the props inside Main.js are ", this.props);
     
     const {CurrencyData} = this.props;
     

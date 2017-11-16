@@ -77793,15 +77793,19 @@ var Main = function (_Component) {
     key: 'displaySpinner',
     value: function displaySpinner() {
       return _react2.default.createElement(
-        'h2',
-        null,
-        'Fetching Data...'
+        'div',
+        { className: 'spinner' },
+        _react2.default.createElement(
+          'h2',
+          null,
+          'Please wait while we fetch the data...'
+        ),
+        _react2.default.createElement('img', { src: '/imgs/spinner.gif' })
       );
     }
   }, {
     key: 'displayChart',
     value: function displayChart(incomingData) {
-
       return _react2.default.createElement(_Chart2.default, { CurrencyData: incomingData });
     }
   }, {
@@ -77813,8 +77817,6 @@ var Main = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log("the props inside Main.js are ", this.props);
-
       var CurrencyData = this.props.CurrencyData;
 
 
