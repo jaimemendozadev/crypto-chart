@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Tooltip, Brush } from 'recharts';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -7,7 +7,6 @@ import {fetchCurrencyData} from '../actions/FetchCurrencyData.jsx';
 
 import {renderTooltip} from '../utils.js';
 import Legend from './Legend.jsx';
-import FEData3 from '../FEData3.js';
 
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -25,7 +24,7 @@ const styles = {
 class Chart extends Component {
   componentDidMount(){
     var yearToFetch = new Date().getFullYear();    
-    this.props.fetchCurrencyData(yearToFetch);
+    this.props.fetchCurrencyData(2016);
   }
 
 
@@ -49,7 +48,7 @@ class Chart extends Component {
 
           style={styles.chart}
           data={CurrencyData["sorted"]} //CurrencyData
-          margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+          margin={{ top: 20, right: 20, left: 10, bottom: 5 }}
         >
           <YAxis />
 
@@ -60,6 +59,7 @@ class Chart extends Component {
 
           <Line connectNulls={true} type="monotone" dataKey="ETH" stroke="#464678" />
           <Line connectNulls={true} type="monotone" dataKey="BTC" stroke="#ff7300" /> 
+          <Brush />
         </LineChart>
       </div>
     )

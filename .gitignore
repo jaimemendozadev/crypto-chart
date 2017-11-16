@@ -56,3 +56,10 @@ typings/
 
 # dotenv environment variables file
 .env
+
+# files to ignore
+DummyData.js
+FEData.js
+FEData2.js
+FEData3.js
+APICall.json
