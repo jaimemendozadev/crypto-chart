@@ -59883,6 +59883,10 @@ var _Chart = __webpack_require__(427);
 
 var _Chart2 = _interopRequireDefault(_Chart);
 
+var _ChartFilter = __webpack_require__(738);
+
+var _ChartFilter2 = _interopRequireDefault(_ChartFilter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -59901,6 +59905,9 @@ var Main = function (_Component) {
   }
 
   _createClass(Main, [{
+    key: 'parseIncomingDataInfo',
+    value: function parseIncomingDataInfo(incomingData) {}
+  }, {
     key: 'displaySpinner',
     value: function displaySpinner() {
       return _react2.default.createElement(
@@ -59917,7 +59924,12 @@ var Main = function (_Component) {
   }, {
     key: 'displayChart',
     value: function displayChart(incomingData) {
-      return _react2.default.createElement(_Chart2.default, { CurrencyData: incomingData });
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_ChartFilter2.default, null),
+        _react2.default.createElement(_Chart2.default, { CurrencyData: incomingData })
+      );
     }
   }, {
     key: 'componentDidMount',
@@ -59928,6 +59940,7 @@ var Main = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      console.log("the props inside Main are ", this.props);
       var CurrencyData = this.props.CurrencyData;
 
 
@@ -62140,10 +62153,6 @@ var _react2 = _interopRequireDefault(_react);
 var _recharts = __webpack_require__(428);
 
 var _utils = __webpack_require__(722);
-
-var _Legend = __webpack_require__(724);
-
-var _Legend2 = _interopRequireDefault(_Legend);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -77225,106 +77234,7 @@ module.exports = webpackContext;
 webpackContext.id = 723;
 
 /***/ }),
-/* 724 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Legend = function (_Component) {
-  _inherits(Legend, _Component);
-
-  function Legend(props) {
-    _classCallCheck(this, Legend);
-
-    var _this = _possibleConstructorReturn(this, (Legend.__proto__ || Object.getPrototypeOf(Legend)).call(this, props));
-
-    _this.state = {
-      currentYear: '',
-      yearToFetch: 'Enter the year to get new data...',
-      monthToFilter: 'Enter the month to filter the data...'
-    };
-
-    _this.handleYearChange = _this.handleYearChange.bind(_this);
-    _this.handleMonthChange = _this.handleMonthChange.bind(_this);
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
-    return _this;
-  }
-
-  _createClass(Legend, [{
-    key: 'handleYearChange',
-    value: function handleYearChange(event) {
-      console.log("event is ", event.target.value);
-
-      this.setState({
-        yearToFetch: event.target.value
-      });
-    }
-  }, {
-    key: 'handleMonthChange',
-    value: function handleMonthChange(event) {
-      console.log("event is ", event.target.value);
-
-      this.setState({
-        monthToFilter: event.target.value
-      });
-    }
-  }, {
-    key: 'handleSubmit',
-    value: function handleSubmit(event) {
-      event.preventDefault();
-      return _react2.default.createElement('div', null);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'form',
-        { className: 'formContainer', onSubmit: this.handleSubmit },
-        _react2.default.createElement(
-          'label',
-          null,
-          'Year to Fetch Data:'
-        ),
-        _react2.default.createElement('input', { value: this.state.yearToFetch, onChange: this.handleYearChange }),
-        _react2.default.createElement(
-          'div',
-          { style: { marginTop: "1em" } },
-          _react2.default.createElement(
-            'label',
-            null,
-            'Enter the Month to Filter the Data'
-          ),
-          _react2.default.createElement('input', { value: this.state.monthToFilter, onChange: this.handleMonthChange })
-        )
-      );
-    }
-  }]);
-
-  return Legend;
-}(_react.Component);
-
-exports.default = Legend;
-
-/***/ }),
+/* 724 */,
 /* 725 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -77948,6 +77858,114 @@ module.exports = isArray;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 734 */,
+/* 735 */,
+/* 736 */,
+/* 737 */,
+/* 738 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ChartFilter = function (_Component) {
+  _inherits(ChartFilter, _Component);
+
+  function ChartFilter(props) {
+    _classCallCheck(this, ChartFilter);
+
+    var _this = _possibleConstructorReturn(this, (ChartFilter.__proto__ || Object.getPrototypeOf(ChartFilter)).call(this, props));
+
+    _this.state = {
+      currentYear: '',
+      yearToFetch: 'Enter the year to get new data...',
+      monthToFilter: 'Enter the month to filter the data...'
+    };
+
+    _this.handleYearChange = _this.handleYearChange.bind(_this);
+    _this.handleMonthChange = _this.handleMonthChange.bind(_this);
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    return _this;
+  }
+
+  _createClass(ChartFilter, [{
+    key: 'handleYearChange',
+    value: function handleYearChange(event) {
+      console.log("event is ", event.target.value);
+
+      this.setState({
+        yearToFetch: event.target.value
+      });
+    }
+  }, {
+    key: 'handleMonthChange',
+    value: function handleMonthChange(event) {
+      console.log("event is ", event.target.value);
+
+      this.setState({
+        monthToFilter: event.target.value
+      });
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(event) {
+      event.preventDefault();
+      return _react2.default.createElement('div', null);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'form',
+        { className: 'formContainer', onSubmit: this.handleSubmit },
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'label',
+            null,
+            'Enter the Month to Filter the Data'
+          ),
+          _react2.default.createElement('input', { value: this.state.monthToFilter, onChange: this.handleMonthChange })
+        ),
+        _react2.default.createElement(
+          'div',
+          { style: { marginTop: "2em" } },
+          _react2.default.createElement(
+            'label',
+            null,
+            'Fetch Data For a New Calendar Year:'
+          ),
+          _react2.default.createElement('input', { value: this.state.yearToFetch, onChange: this.handleYearChange })
+        )
+      );
+    }
+  }]);
+
+  return ChartFilter;
+}(_react.Component);
+
+exports.default = ChartFilter;
 
 /***/ })
 /******/ ]);

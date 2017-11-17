@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-class Legend extends Component {
+class ChartFilter extends Component {
   constructor(props){
     super(props);
     
@@ -41,13 +41,17 @@ class Legend extends Component {
   render(){
     return(
       <form className="formContainer" onSubmit={this.handleSubmit}>
-        <label>Year to Fetch Data:</label>
-        <input value={this.state.yearToFetch} onChange={this.handleYearChange} />
-
-        <div style={{marginTop: "1em"}}>
+        <div>
           <label>Enter the Month to Filter the Data</label>
           <input value={this.state.monthToFilter} onChange={this.handleMonthChange} />
         </div>
+
+        <div style={{marginTop: "2em"}}>
+          <label>Fetch Data For a New Calendar Year:</label>
+          <input value={this.state.yearToFetch} onChange={this.handleYearChange} />
+        </div>
+
+        
 
       </form>
       
@@ -55,4 +59,4 @@ class Legend extends Component {
   }
 }
 
-export default Legend;
+export default ChartFilter;

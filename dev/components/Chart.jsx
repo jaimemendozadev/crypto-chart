@@ -1,8 +1,6 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, Brush } from 'recharts';
 import {renderTooltip} from '../utils.js';
-import Legend from '../containers/Legend.jsx';
-
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 

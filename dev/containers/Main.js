@@ -3,9 +3,13 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {fetchCurrencyData} from '../actions/FetchCurrencyData.jsx';
 import Chart from '../components/Chart.jsx';
-
+import ChartFilter from './ChartFilter.jsx';
 
 class Main extends Component {
+
+  parseIncomingDataInfo(incomingData){
+
+  }
 
   displaySpinner(){
     return (
@@ -18,7 +22,10 @@ class Main extends Component {
 
   displayChart(incomingData){
     return (
-      <Chart CurrencyData={incomingData} />
+      <div>
+        <ChartFilter />
+        <Chart CurrencyData={incomingData} />
+      </div>
     )
   }
 
@@ -28,7 +35,7 @@ class Main extends Component {
   }
 
   render(){
-    
+    console.log("the props inside Main are ", this.props)
     const {CurrencyData} = this.props;
     
     return(
