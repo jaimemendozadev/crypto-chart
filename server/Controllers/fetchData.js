@@ -81,8 +81,9 @@ function formatFrontEndData(RawData, requestYear) {
 }
 
 
-function pluckCurrencyData(dataObject, requestYear, currencyName, month, day){
-  var data = dataObject[requestYear];
+function pluckCurrencyData(dataObject, currencyName, month, day){
+  var data = dataObject;
+
 
   if (!data[currencyName]){
     return undefined;
@@ -116,8 +117,8 @@ function sortCurrencyData(dataObject, upTo, requestYear){
     //for every day in a month, push the dataObject of each currency
     for (var day = 0; day < numOfDays; day++){
       
-      var ethereum = pluckCurrencyData(dataObject, requestYear, "Ethereum", month, day);
-      var bitcoin = pluckCurrencyData(dataObject, requestYear, "Bitcoin", month, day);
+      var ethereum = pluckCurrencyData(dataObject, "Ethereum", month, day);
+      var bitcoin = pluckCurrencyData(dataObject, "Bitcoin", month, day);
       
       if(ethereum !== undefined)
         sortedArray.push(ethereum);
@@ -153,7 +154,7 @@ function fetchData(requestYear, res, getArchive = false, saveInDB = false){
     .then(axios.spread((eth, btc) => {
     
       var FEData = {};
-      FEData[requestYear] = {};
+      FEData["Year"] = requestYear;
   
       [eth.data, btc.data].forEach((currencyData) => {
         
@@ -161,8 +162,8 @@ function fetchData(requestYear, res, getArchive = false, saveInDB = false){
           var coinName = currencyData.coin_name;
           var result = formatFrontEndData(currencyData, requestYear);
   
-          if(!FEData[requestYear][coinName]){
-            FEData[requestYear][coinName] = result;
+          if(!FEData[coinName]){
+            FEData[coinName] = result;
           }
         }
                 
