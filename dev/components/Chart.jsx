@@ -10,10 +10,9 @@ const Chart = ({CurrencyData}) => {
   console.log("CurrencyData is ", CurrencyData);
   return(
     
-    <div className="chart">
-      <h1>Crypto Currency Chart</h1>
-      
+    <div className="chartContainer">
       <LineChart
+        className="chart"
         width={1200}
         height={700}
         data={CurrencyData}

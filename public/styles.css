@@ -1,14 +1,22 @@
 body {
   margin: 0; }
-  body .header {
-    width: 100%;
-    height: 300px;
-    background-color: #6e36bb; }
 
-.chart {
-  margin: 0 auto; }
-  .chart h1 {
-    text-align: center; }
+.header {
+  width: 100%;
+  height: 300px;
+  background-color: #8A90B5;
+  text-align: center;
+  color: white; }
+  .header h1 {
+    display: inline-block;
+    position: relative;
+    top: .5em;
+    font-size: 4em; }
+  .header h3 {
+    font-size: 1.5em; }
+
+.chartContainer .chart {
+  margin: 5em auto; }
 
 .formContainer {
   width: 400px;

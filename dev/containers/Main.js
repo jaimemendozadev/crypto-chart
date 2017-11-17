@@ -33,7 +33,10 @@ class Main extends Component {
     
     return(
       <div className="body">
-        <div className="header" />
+        <div className="header"> 
+          <h1>Crypto Currency Chart</h1>
+          <h3>A simple chart for comparing the price of Bitcoin versus Ethereum per year</h3>
+        </div>
         {!CurrencyData["sorted"] ? this.displaySpinner() : this.displayChart(CurrencyData["sorted"])}
       </div>
     )
