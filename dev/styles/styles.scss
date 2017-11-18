@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  height: 1500px;
+  height: 1800px;
 }
 
 .header {
@@ -20,25 +20,42 @@ body {
 
   h3 {
     font-size: 1.5em;
-    
   }
   
+}
+
+.chartHeader {
+  font-size: 3em;
+  text-align: center;
+  color: #8A90B5;
 }
 
 
 .chartContainer {
   .chart {
-    margin: 8em auto;  
+    margin: 5em auto;  
   }
   
   
 }
 
 .formContainer {
-  width: 400px;
-  height: 200px;
+  width: 70%;
+  height: 100%;
   margin: 1.5em auto;
-  padding: 1em;
+
+  .instructions {
+    width: 40%;
+    float: left;
+    margin-left: 1em;
+    font-size: 23px;
+  }
+
+  form {
+    margin-top: 1em;
+    width: 40%;
+    float: right;
+  }
 
   button {
     margin-top: 1em;
@@ -101,9 +118,8 @@ body {
 }
 
 .errorMessage {
-  margin-top: 1em;
+  margin-top: .5em;
   font-size: 2em;
-  text-align: center;
   color: red;
 }
 

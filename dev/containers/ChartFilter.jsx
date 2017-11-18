@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
-import {sanitizeMonthInput, sanitizeYearInput} from '../utils.js';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {fetchCurrencyData} from '../actions/FetchCurrencyData.jsx';
+import {sanitizeYearInput, renderErrorMessage} from '../utils.js';
 
 
 class ChartFilter extends Component {
@@ -9,12 +12,11 @@ class ChartFilter extends Component {
     this.state = {
       currentYear: this.props.CurrentYear,
       yearToFetch: 'Enter the year to get new data...',
-      monthToFilter: 'Enter the month to filter the data...',
       error: null
     }
-    this.handleMonthChange = this.handleMonthChange.bind(this);
     this.handleYearChange = this.handleYearChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderErrorMessage = renderErrorMessage.bind(this);
 
   }
   
@@ -24,61 +26,56 @@ class ChartFilter extends Component {
     })
   }
 
-  handleMonthChange(event){
-
-    this.setState({
-      monthToFilter: event.target.value
-    });
-  }
-
-  renderErrorMessage(){
-    return (
-      <div className="errorMessage">{this.state.error}</div>
-    )
-  }
 
   handleSubmit(event){
     event.preventDefault();
-
-    var monthString = sanitizeMonthInput(this.state.monthToFilter);
     
     var yearString = sanitizeYearInput(this.state.yearToFetch);
 
-    if (monthString["error"]){
+    if (yearString["error"]){
       this.setState({
-        error: monthString["error"]
+        error: yearString["error"]
       });
+    } else {
+      //fetch new year of currency data
+
+      //NOTE: Need callback function to erase error messaging
+      this.props.fetchCurrencyData(yearString);      
     }
 
-    
-
-    return(
-      <div></div>
-    )
   }
 
   render(){
     return(
       <div className="formContainer">
+        <div className="instructions">
+          <h3>Instructions</h3>
+          <p>Welcome to the Crypto Currency Chart app!</p>
+          <p>You may use the handles on the slidebar below the chart 
+            to get a granular or expanded view of the data for the current year.</p>
+          <p>You may also use the form to submit a request for a different year of data and we'll happily
+            get it for you to display on the chart.</p>
+        </div>
+
         <form onSubmit={this.handleSubmit}>
-          <div>
-            <label>Enter the Month to Filter the Data</label>
-            <input value={this.state.monthToFilter} onChange={this.handleMonthChange} />
-          </div>
   
-          <div style={{marginTop: "2em"}}>
+          <div style={{marginTop: "1em"}}>
             <label>Fetch Data For a New Calendar Year</label>
             <input value={this.state.yearToFetch} onChange={this.handleYearChange} />
           </div>
   
-          
         <button type="submit">Submit</button>
-        </form>
         { this.state.error ? this.renderErrorMessage() : ''}
+        </form>
+        
       </div>
       
     )
   }
 }
 
-export default ChartFilter;
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({fetchCurrencyData}, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(ChartFilter);

@@ -59905,9 +59905,6 @@ var Main = function (_Component) {
   }
 
   _createClass(Main, [{
-    key: 'parseIncomingDataInfo',
-    value: function parseIncomingDataInfo(incomingData) {}
-  }, {
     key: 'displaySpinner',
     value: function displaySpinner() {
       return _react2.default.createElement(
@@ -59927,8 +59924,14 @@ var Main = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_ChartFilter2.default, { CurrentYear: incomingData["Year"] }),
-        _react2.default.createElement(_Chart2.default, { CurrencyData: incomingData["sorted"] })
+        _react2.default.createElement(
+          'h2',
+          { className: 'chartHeader' },
+          'Crypto Currency Data for ',
+          incomingData["Year"]
+        ),
+        _react2.default.createElement(_Chart2.default, { CurrencyData: incomingData["sorted"] }),
+        _react2.default.createElement(_ChartFilter2.default, { CurrentYear: incomingData["Year"] })
       );
     }
   }, {
@@ -76905,10 +76908,9 @@ module.exports = baseSum;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.months = undefined;
-exports.sanitizeMonthInput = sanitizeMonthInput;
 exports.sanitizeYearInput = sanitizeYearInput;
 exports.renderTooltip = renderTooltip;
+exports.renderErrorMessage = renderErrorMessage;
 
 var _react = __webpack_require__(1);
 
@@ -76919,27 +76921,6 @@ var _moment = __webpack_require__(0);
 var _moment2 = _interopRequireDefault(_moment);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var months = exports.months = {
-  "january": 1,
-  "february": 2,
-  "march": 3,
-  "april": 4,
-  "may": 5,
-  "june": 6,
-  "july": 7,
-  "august": 8,
-  "september": 9,
-  "october": 10,
-  "november": 11,
-  "december": 12
-};
-
-function sanitizeMonthInput(monthInput) {
-  var monthString = monthInput.trim().toLowerCase();
-
-  return !months[monthString] ? { error: "Enter a Valid Month" } : monthString;
-}
 
 function sanitizeYearInput(yearInput) {
   var yearString = yearInput.trim();
@@ -76981,6 +76962,14 @@ function renderTooltip(data) {
       'Date: ',
       load.payload.date
     )
+  );
+}
+
+function renderErrorMessage() {
+  return _react2.default.createElement(
+    'div',
+    { className: 'errorMessage' },
+    this.state.error
   );
 }
 
@@ -77889,6 +77878,12 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _redux = __webpack_require__(62);
+
+var _reactRedux = __webpack_require__(142);
+
+var _FetchCurrencyData = __webpack_require__(147);
+
 var _utils = __webpack_require__(722);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -77910,12 +77905,11 @@ var ChartFilter = function (_Component) {
     _this.state = {
       currentYear: _this.props.CurrentYear,
       yearToFetch: 'Enter the year to get new data...',
-      monthToFilter: 'Enter the month to filter the data...',
       error: null
     };
-    _this.handleMonthChange = _this.handleMonthChange.bind(_this);
     _this.handleYearChange = _this.handleYearChange.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.renderErrorMessage = _utils.renderErrorMessage.bind(_this);
 
     return _this;
   }
@@ -77928,38 +77922,22 @@ var ChartFilter = function (_Component) {
       });
     }
   }, {
-    key: 'handleMonthChange',
-    value: function handleMonthChange(event) {
-
-      this.setState({
-        monthToFilter: event.target.value
-      });
-    }
-  }, {
-    key: 'renderErrorMessage',
-    value: function renderErrorMessage() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'errorMessage' },
-        this.state.error
-      );
-    }
-  }, {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
       event.preventDefault();
 
-      var monthString = (0, _utils.sanitizeMonthInput)(this.state.monthToFilter);
-
       var yearString = (0, _utils.sanitizeYearInput)(this.state.yearToFetch);
 
-      if (monthString["error"]) {
+      if (yearString["error"]) {
         this.setState({
-          error: monthString["error"]
+          error: yearString["error"]
         });
-      }
+      } else {
+        //fetch new year of currency data
 
-      return _react2.default.createElement('div', null);
+        //NOTE: Need callback function to erase error messaging
+        this.props.fetchCurrencyData(yearString);
+      }
     }
   }, {
     key: 'render',
@@ -77968,21 +77946,35 @@ var ChartFilter = function (_Component) {
         'div',
         { className: 'formContainer' },
         _react2.default.createElement(
+          'div',
+          { className: 'instructions' },
+          _react2.default.createElement(
+            'h3',
+            null,
+            'Instructions'
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            'Welcome to the Crypto Currency Chart app!'
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            'You may use the handles on the slidebar below the chart to get a granular or expanded view of the data for the current year.'
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            'You may also use the form to submit a request for a different year of data and we\'ll happily get it for you to display on the chart.'
+          )
+        ),
+        _react2.default.createElement(
           'form',
           { onSubmit: this.handleSubmit },
           _react2.default.createElement(
             'div',
-            null,
-            _react2.default.createElement(
-              'label',
-              null,
-              'Enter the Month to Filter the Data'
-            ),
-            _react2.default.createElement('input', { value: this.state.monthToFilter, onChange: this.handleMonthChange })
-          ),
-          _react2.default.createElement(
-            'div',
-            { style: { marginTop: "2em" } },
+            { style: { marginTop: "1em" } },
             _react2.default.createElement(
               'label',
               null,
@@ -77994,9 +77986,9 @@ var ChartFilter = function (_Component) {
             'button',
             { type: 'submit' },
             'Submit'
-          )
-        ),
-        this.state.error ? this.renderErrorMessage() : ''
+          ),
+          this.state.error ? this.renderErrorMessage() : ''
+        )
       );
     }
   }]);
@@ -78004,7 +77996,11 @@ var ChartFilter = function (_Component) {
   return ChartFilter;
 }(_react.Component);
 
-exports.default = ChartFilter;
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({ fetchCurrencyData: _FetchCurrencyData.fetchCurrencyData }, dispatch);
+}
+
+exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(ChartFilter);
 
 /***/ })
 /******/ ]);

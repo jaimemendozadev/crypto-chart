@@ -7,10 +7,6 @@ import ChartFilter from './ChartFilter.jsx';
 
 class Main extends Component {
 
-  parseIncomingDataInfo(incomingData){
-
-  }
-
   displaySpinner(){
     return (
       <div className="spinner">
@@ -23,8 +19,12 @@ class Main extends Component {
   displayChart(incomingData){
     return (
       <div>
-        <ChartFilter CurrentYear={incomingData["Year"]} />
+        <h2 className="chartHeader">Crypto Currency Data for {incomingData["Year"]}</h2>
+
         <Chart CurrencyData={incomingData["sorted"]} />
+        
+        
+        <ChartFilter CurrentYear={incomingData["Year"]} />
       </div>
     )
   }
