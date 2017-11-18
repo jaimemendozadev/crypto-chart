@@ -29,6 +29,23 @@ export function sanitizeYearInput(yearInput){
   return validYear == true ? yearString : {error: "Enter a Valid Year"};
 }
 
+export function displaySpinner(){
+  return (
+    <div className="spinner">
+      <h2>Please wait while we fetch the data...</h2>
+      <img src="/imgs/spinner.gif" />
+    </div>
+  )
+}
+
+export function displayErrorMessage(errorMessage){
+  return (
+    <div className="dataError">
+      <h1>{errorMessage}</h1>
+    </div>
+  )
+}
+
 
 export function renderTooltip(data){
   console.log("the data is ", data)

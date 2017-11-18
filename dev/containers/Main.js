@@ -4,36 +4,19 @@ import {connect} from 'react-redux';
 import {fetchCurrencyData} from '../actions/FetchCurrencyData.jsx';
 import Chart from '../components/Chart.jsx';
 import ChartFilter from './ChartFilter.jsx';
+import {displaySpinner, displayErrorMessage} from '../utils.js';
+
 
 class Main extends Component {
 
-  displaySpinner(){
-    return (
-      <div className="spinner">
-        <h2>Please wait while we fetch the data...</h2>
-        <img src="/imgs/spinner.gif" />
-      </div>
-    )
-  }
-
-  displayErrorMessage(status){
-    if (status.error == true){
-      return (
-        <div className="dataError">
-          <h1>{status.errorMessage}</h1>
-        </div>
-      )
-    }
-  }
-
   displayChart(incomingData){
+    if (!incomingData["sorted"]){
+      return displaySpinner();
+    }
     return (
       <div>
         <h2 className="chartHeader">Crypto Currency Data for {incomingData["Year"]}</h2>
-
         <Chart CurrencyData={incomingData["sorted"]} />
-        
-        
         <ChartFilter CurrentYear={incomingData["Year"]} />
       </div>
     )
@@ -53,9 +36,8 @@ class Main extends Component {
         <div className="header"> 
           <h1>Crypto Currency Chart</h1>
           <h3>A simple chart for comparing the price of Bitcoin versus Ethereum per year</h3>
-        </div>
-        {this.displayErrorMessage(CurrencyData)}
-        {!CurrencyData["sorted"] ? this.displaySpinner() : this.displayChart(CurrencyData)}
+        </div>        
+        { CurrencyData.error == true ? displayErrorMessage(CurrencyData.errorMessage) : this.displayChart(CurrencyData)}
       </div>
     )
   }
