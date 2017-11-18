@@ -23,8 +23,8 @@ class Main extends Component {
   displayChart(incomingData){
     return (
       <div>
-        <ChartFilter />
-        <Chart CurrencyData={incomingData} />
+        <ChartFilter CurrentYear={incomingData["Year"]} />
+        <Chart CurrencyData={incomingData["sorted"]} />
       </div>
     )
   }
@@ -44,7 +44,7 @@ class Main extends Component {
           <h1>Crypto Currency Chart</h1>
           <h3>A simple chart for comparing the price of Bitcoin versus Ethereum per year</h3>
         </div>
-        {!CurrencyData["sorted"] ? this.displaySpinner() : this.displayChart(CurrencyData["sorted"])}
+        {!CurrencyData["sorted"] ? this.displaySpinner() : this.displayChart(CurrencyData)}
       </div>
     )
   }

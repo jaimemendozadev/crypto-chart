@@ -59927,8 +59927,8 @@ var Main = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_ChartFilter2.default, null),
-        _react2.default.createElement(_Chart2.default, { CurrencyData: incomingData })
+        _react2.default.createElement(_ChartFilter2.default, { CurrentYear: incomingData["Year"] }),
+        _react2.default.createElement(_Chart2.default, { CurrencyData: incomingData["sorted"] })
       );
     }
   }, {
@@ -59961,7 +59961,7 @@ var Main = function (_Component) {
             'A simple chart for comparing the price of Bitcoin versus Ethereum per year'
           )
         ),
-        !CurrencyData["sorted"] ? this.displaySpinner() : this.displayChart(CurrencyData["sorted"])
+        !CurrencyData["sorted"] ? this.displaySpinner() : this.displayChart(CurrencyData)
       );
     }
   }]);
@@ -76905,7 +76905,9 @@ module.exports = baseSum;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.newCurrencyData = newCurrencyData;
+exports.months = undefined;
+exports.sanitizeMonthInput = sanitizeMonthInput;
+exports.sanitizeYearInput = sanitizeYearInput;
 exports.renderTooltip = renderTooltip;
 
 var _react = __webpack_require__(1);
@@ -76918,26 +76920,33 @@ var _moment2 = _interopRequireDefault(_moment);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function newCurrencyData(year) {
-  var currencyData = {};
-
-  currencyData[year] = {
-    1: {},
-    2: {},
-    3: {},
-    4: {},
-    5: {},
-    6: {},
-    7: {},
-    8: {},
-    9: {},
-    10: {},
-    11: {},
-    12: {}
-  };
-
-  return currencyData;
+var months = exports.months = {
+  "january": 1,
+  "february": 2,
+  "march": 3,
+  "april": 4,
+  "may": 5,
+  "june": 6,
+  "july": 7,
+  "august": 8,
+  "september": 9,
+  "october": 10,
+  "november": 11,
+  "december": 12
 };
+
+function sanitizeMonthInput(monthInput) {
+  var monthString = monthInput.trim().toLowerCase();
+
+  return !months[monthString] ? { error: "Enter a Valid Month" } : monthString;
+}
+
+function sanitizeYearInput(yearInput) {
+  var yearString = yearInput.trim();
+  var validYear = (0, _moment2.default)(yearString, "YYYY").isValid();
+
+  return validYear == true ? yearString : { error: "Enter a Valid Year" };
+}
 
 function renderTooltip(data) {
   console.log("the data is ", data);
@@ -77880,6 +77889,8 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _utils = __webpack_require__(722);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -77897,22 +77908,21 @@ var ChartFilter = function (_Component) {
     var _this = _possibleConstructorReturn(this, (ChartFilter.__proto__ || Object.getPrototypeOf(ChartFilter)).call(this, props));
 
     _this.state = {
-      currentYear: '',
+      currentYear: _this.props.CurrentYear,
       yearToFetch: 'Enter the year to get new data...',
-      monthToFilter: 'Enter the month to filter the data...'
+      monthToFilter: 'Enter the month to filter the data...',
+      error: null
     };
-
-    _this.handleYearChange = _this.handleYearChange.bind(_this);
     _this.handleMonthChange = _this.handleMonthChange.bind(_this);
+    _this.handleYearChange = _this.handleYearChange.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
+
     return _this;
   }
 
   _createClass(ChartFilter, [{
     key: 'handleYearChange',
     value: function handleYearChange(event) {
-      console.log("event is ", event.target.value);
-
       this.setState({
         yearToFetch: event.target.value
       });
@@ -77920,44 +77930,73 @@ var ChartFilter = function (_Component) {
   }, {
     key: 'handleMonthChange',
     value: function handleMonthChange(event) {
-      console.log("event is ", event.target.value);
 
       this.setState({
         monthToFilter: event.target.value
       });
     }
   }, {
+    key: 'renderErrorMessage',
+    value: function renderErrorMessage() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'errorMessage' },
+        this.state.error
+      );
+    }
+  }, {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
       event.preventDefault();
+
+      var monthString = (0, _utils.sanitizeMonthInput)(this.state.monthToFilter);
+
+      var yearString = (0, _utils.sanitizeYearInput)(this.state.yearToFetch);
+
+      if (monthString["error"]) {
+        this.setState({
+          error: monthString["error"]
+        });
+      }
+
       return _react2.default.createElement('div', null);
     }
   }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'form',
-        { className: 'formContainer', onSubmit: this.handleSubmit },
+        'div',
+        { className: 'formContainer' },
         _react2.default.createElement(
-          'div',
-          null,
+          'form',
+          { onSubmit: this.handleSubmit },
           _react2.default.createElement(
-            'label',
+            'div',
             null,
-            'Enter the Month to Filter the Data'
+            _react2.default.createElement(
+              'label',
+              null,
+              'Enter the Month to Filter the Data'
+            ),
+            _react2.default.createElement('input', { value: this.state.monthToFilter, onChange: this.handleMonthChange })
           ),
-          _react2.default.createElement('input', { value: this.state.monthToFilter, onChange: this.handleMonthChange })
+          _react2.default.createElement(
+            'div',
+            { style: { marginTop: "2em" } },
+            _react2.default.createElement(
+              'label',
+              null,
+              'Fetch Data For a New Calendar Year'
+            ),
+            _react2.default.createElement('input', { value: this.state.yearToFetch, onChange: this.handleYearChange })
+          ),
+          _react2.default.createElement(
+            'button',
+            { type: 'submit' },
+            'Submit'
+          )
         ),
-        _react2.default.createElement(
-          'div',
-          { style: { marginTop: "2em" } },
-          _react2.default.createElement(
-            'label',
-            null,
-            'Fetch Data For a New Calendar Year:'
-          ),
-          _react2.default.createElement('input', { value: this.state.yearToFetch, onChange: this.handleYearChange })
-        )
+        this.state.error ? this.renderErrorMessage() : ''
       );
     }
   }]);

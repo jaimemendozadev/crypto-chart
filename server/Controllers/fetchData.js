@@ -84,7 +84,6 @@ function formatFrontEndData(RawData, requestYear) {
 function pluckCurrencyData(dataObject, currencyName, month, day){
   var data = dataObject;
 
-
   if (!data[currencyName]){
     return undefined;
   }

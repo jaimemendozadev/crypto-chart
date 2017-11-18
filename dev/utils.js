@@ -2,28 +2,33 @@ import React from 'react';
 import moment from 'moment';
 
 
-export function newCurrencyData(year){
-  var currencyData = {};
+export const months = {
+  "january": 1,
+  "february": 2,
+  "march": 3,
+  "april": 4,
+  "may": 5,
+  "june": 6,
+  "july": 7,
+  "august": 8,
+  "september": 9,
+  "october": 10,
+  "november": 11,
+  "december": 12,
+}
 
-  currencyData[year] = {
-    1:{},
-    2:{},
-    3:{},
-    4:{},
-    5:{},
-    6:{},
-    7:{},
-    8:{},
-    9:{},
-    10:{},
-    11:{},
-    12:{},
-  }
+export function sanitizeMonthInput(monthInput){
+  var monthString = monthInput.trim().toLowerCase();
+
+  return !months[monthString] ? {error: "Enter a Valid Month"} : monthString;
+}
+
+export function sanitizeYearInput(yearInput){
+  var yearString = yearInput.trim();
+  var validYear = moment(yearString, "YYYY").isValid();
   
-
-  return currencyData;
-
-};
+  return validYear == true ? yearString : {error: "Enter a Valid Year"};
+}
 
 export function renderTooltip(data){
   console.log("the data is ", data)
