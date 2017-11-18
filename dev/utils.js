@@ -1,9 +1,29 @@
 import React from 'react';
 import moment from 'moment';
 
+const entityMap = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+  '/': '&#x2F;',
+  '`': '&#x60;',
+  '=': '&#x3D;'
+};
+
+function escapeHtml(string) {
+  return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+    return entityMap[s];
+  });
+}
+
 
 export function sanitizeYearInput(yearInput){
   var yearString = yearInput.trim();
+
+  yearString = escapeHtml(yearString);
+  
   var validYear = moment(yearString, "YYYY").isValid();
 
   return validYear == true ? yearString : {error: "Enter a Valid Year"};

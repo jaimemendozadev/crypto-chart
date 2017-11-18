@@ -5,16 +5,20 @@ const BASE_URL = 'http://localhost:3000/api/fetchcurrencydata/';
 
 export const FETCH_CURRENCY_DATA = 'FETCH_CURRENCY_DATA';
 
-export function fetchCurrencyData(fetchYear){
-  const fetchedData = axios.get(`${BASE_URL}${fetchYear}`)
-                      .then(response => response.data)
-                      .catch(error => {
-                        console.log("Error fetching API Data ", error);
-                      });
 
-  return {
-    type: FETCH_CURRENCY_DATA,
-    payload: fetchedData
+
+export function fetchCurrencyData(fetchYear){
+
+  return function(dispatch){
+    axios.get(`${BASE_URL}${fetchYear}`)
+      .then(response => {
+        
+        dispatch({type: FETCH_CURRENCY_DATA, payload: response.data});
+      
+      })
+      .catch(error => {
+        console.log("Error fetching API Data ", error);
+      });
   }
 }
 

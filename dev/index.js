@@ -4,10 +4,10 @@ import Main from './containers/Main.js';
 import RootReducer from './reducers/RootReducer.jsx';
 import {applyMiddleware, createStore} from 'redux';
 import {Provider} from 'react-redux';
-import promiseMiddleware from 'redux-promise';
+import thunk from 'redux-thunk';
 import './styles/styles.scss';
 
-const createStoreWithMiddleware = applyMiddleware(promiseMiddleware)(createStore);
+const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 
 
