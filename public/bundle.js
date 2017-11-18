@@ -14365,7 +14365,7 @@ function warning(message) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ERROR_FETCHING_DATA = exports.FETCH_CURRENCY_DATA = undefined;
+exports.NO_DATA_FROM_API = exports.FE_AXIOS_ERROR = exports.API_ERROR = exports.FETCH_CURRENCY_DATA = undefined;
 exports.fetchCurrencyData = fetchCurrencyData;
 
 var _react = __webpack_require__(1);
@@ -14378,20 +14378,36 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//const BASE_URL = 'http://localhost:3000/api/fetchcurrencydata/';
-var BASE_URL = 'http://localhost:3000/api/somefakeroute/';
+var BASE_URL = 'http://localhost:3000/api/fetchcurrencydata/';
+
 var FETCH_CURRENCY_DATA = exports.FETCH_CURRENCY_DATA = 'FETCH_CURRENCY_DATA';
-var ERROR_FETCHING_DATA = exports.ERROR_FETCHING_DATA = 'ERROR_FETCHING_DATA';
+var API_ERROR = exports.API_ERROR = 'API_ERROR';
+var FE_AXIOS_ERROR = exports.FE_AXIOS_ERROR = 'FE_AXIOS_ERROR';
+var NO_DATA_FROM_API = exports.NO_DATA_FROM_API = 'NO_DATA_FROM_API';
+
+var axiosErrorMessage = "Sorry, there was an error fetching your request. Please submit another request or try again later.";
+var axiosErrorPayload = { FEAxiosError: true, errorMessage: axiosErrorMessage };
 
 function fetchCurrencyData(fetchYear) {
 
   return function (dispatch) {
     _axios2.default.get('' + BASE_URL + fetchYear).then(function (response) {
 
+      console.log("the response from the server is ", response);
+
+      if (response.data.noDataError == true) {
+        dispatch({ type: NO_DATA_FROM_API, payload: response.data });
+      }
+
+      if (response.data.apiError == true) {
+        dispatch({ type: API_ERROR, payload: response.data });
+      }
+
       dispatch({ type: FETCH_CURRENCY_DATA, payload: response.data });
     }).catch(function (error) {
       console.log("Error fetching API Data ", error);
-      dispatch({ type: ERROR_FETCHING_DATA });
+
+      dispatch({ type: FE_AXIOS_ERROR, payload: axiosErrorPayload });
     });
   };
 }
@@ -18672,7 +18688,13 @@ var _moment = __webpack_require__(0);
 
 var _moment2 = _interopRequireDefault(_moment);
 
+var _ChartFilter = __webpack_require__(723);
+
+var _ChartFilter2 = _interopRequireDefault(_ChartFilter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var currYear = new Date().getFullYear();
 
 var entityMap = {
   '&': '&amp;',
@@ -18715,14 +18737,16 @@ function displaySpinner() {
 }
 
 function displayErrorMessage(errorMessage) {
+  //in the event we get an error, send currYear as props to <ChartFilter />
   return _react2.default.createElement(
     'div',
-    { className: 'dataError' },
+    null,
     _react2.default.createElement(
-      'h1',
-      null,
+      'h2',
+      { className: 'dataError' },
       errorMessage
-    )
+    ),
+    _react2.default.createElement(_ChartFilter2.default, { CurrentYear: currYear })
   );
 }
 
@@ -59817,6 +59841,8 @@ var Main = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var yearToFetch = new Date().getFullYear();
+
+      //Note remember to restore yearToFetch before deploying
       this.props.fetchCurrencyData(2016);
     }
   }, {
@@ -59843,7 +59869,7 @@ var Main = function (_Component) {
             'A simple chart for comparing the price of Bitcoin versus Ethereum per year'
           )
         ),
-        CurrencyData.error == true ? (0, _utils.displayErrorMessage)(CurrencyData.errorMessage) : this.displayChart(CurrencyData)
+        CurrencyData.apiError == true || CurrencyData.FEAxiosError == true || CurrencyData.noDataError == true ? (0, _utils.displayErrorMessage)(CurrencyData.errorMessage) : this.displayChart(CurrencyData)
       );
     }
   }]);
@@ -77081,6 +77107,7 @@ var ChartFilter = function (_Component) {
       yearToFetch: 'Enter the year to get new data...',
       error: null
     };
+    _this.resetErrorMessage = _this.resetErrorMessage.bind(_this);
     _this.handleYearChange = _this.handleYearChange.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
     _this.renderErrorMessage = _utils.renderErrorMessage.bind(_this);
@@ -77089,10 +77116,18 @@ var ChartFilter = function (_Component) {
   }
 
   _createClass(ChartFilter, [{
+    key: 'resetErrorMessage',
+    value: function resetErrorMessage() {
+      this.setState({
+        error: null
+      });
+    }
+  }, {
     key: 'handleYearChange',
     value: function handleYearChange(event) {
       this.setState({
-        yearToFetch: event.target.value
+        yearToFetch: event.target.value,
+        error: null
       });
     }
   }, {
@@ -77108,8 +77143,6 @@ var ChartFilter = function (_Component) {
         });
       } else {
         //fetch new year of currency data
-
-        //NOTE: Need callback function to erase error messaging
         this.props.fetchCurrencyData(yearString);
       }
     }
@@ -77225,8 +77258,6 @@ var _FetchCurrencyData = __webpack_require__(92);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var fetchingDataError = "Sorry, there was an error fetching your request. Try again later.";
-
 function SetCurrencyData() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments[1];
@@ -77235,8 +77266,14 @@ function SetCurrencyData() {
     case _FetchCurrencyData.FETCH_CURRENCY_DATA:
       return action.payload;
 
-    case _FetchCurrencyData.ERROR_FETCHING_DATA:
-      return Object.assign({}, state, { error: true, errorMessage: fetchingDataError });
+    case _FetchCurrencyData.NO_DATA_FROM_API:
+      return Object.assign({}, state, action.payload);
+
+    case _FetchCurrencyData.API_ERROR:
+      return Object.assign({}, state, action.payload);
+
+    case _FetchCurrencyData.FE_AXIOS_ERROR:
+      return action.payload;
   }
 
   return state;

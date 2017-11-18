@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {fetchCurrencyData} from '../actions/FetchCurrencyData.jsx';
 import {sanitizeYearInput, renderErrorMessage} from '../utils.js';
 
-
 class ChartFilter extends Component {
   constructor(props){
     super(props);
@@ -14,15 +13,23 @@ class ChartFilter extends Component {
       yearToFetch: 'Enter the year to get new data...',
       error: null
     }
+    this.resetErrorMessage = this.resetErrorMessage.bind(this);
     this.handleYearChange = this.handleYearChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderErrorMessage = renderErrorMessage.bind(this);
 
   }
+
+  resetErrorMessage(){
+    this.setState({
+      error: null
+    });
+  }
   
   handleYearChange(event){
     this.setState({
-      yearToFetch: event.target.value
+      yearToFetch: event.target.value,
+      error: null
     })
   }
 
@@ -38,8 +45,6 @@ class ChartFilter extends Component {
       });
     } else {
       //fetch new year of currency data
-
-      //NOTE: Need callback function to erase error messaging
       this.props.fetchCurrencyData(yearString);      
     }
 

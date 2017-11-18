@@ -23,7 +23,9 @@ class Main extends Component {
   }
 
   componentDidMount(){
-    var yearToFetch = new Date().getFullYear();    
+    var yearToFetch = new Date().getFullYear();   
+    
+    //Note remember to restore yearToFetch before deploying
     this.props.fetchCurrencyData(2016);
   }
 
@@ -37,7 +39,10 @@ class Main extends Component {
           <h1>Crypto Currency Chart</h1>
           <h3>A simple chart for comparing the price of Bitcoin versus Ethereum per year</h3>
         </div>        
-        { CurrencyData.error == true ? displayErrorMessage(CurrencyData.errorMessage) : this.displayChart(CurrencyData)}
+        { (CurrencyData.apiError == true || 
+          CurrencyData.FEAxiosError == true ||
+          CurrencyData.noDataError == true) ? 
+          displayErrorMessage(CurrencyData.errorMessage) : this.displayChart(CurrencyData)}
       </div>
     )
   }

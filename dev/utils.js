@@ -1,5 +1,7 @@
 import React from 'react';
 import moment from 'moment';
+import ChartFilter from './containers/ChartFilter.jsx';
+const currYear = new Date().getFullYear();
 
 const entityMap = {
   '&': '&amp;',
@@ -39,9 +41,11 @@ export function displaySpinner(){
 }
 
 export function displayErrorMessage(errorMessage){
+  //in the event we get an error, send currYear as props to <ChartFilter />
   return (
-    <div className="dataError">
-      <h1>{errorMessage}</h1>
+    <div>
+      <h2 className="dataError">{errorMessage}</h2>
+      <ChartFilter CurrentYear={currYear} />
     </div>
   )
 }

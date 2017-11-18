@@ -141,13 +141,14 @@ function fetchData(requestYear, res, getArchive = false, saveInDB = false){
   var end = (getArchive == true) ? moment(`12-31-${requestYear}`, "MM-DD-YYYY").format('X') : currentDate.format('X');
 
   var upTo = (getArchive == true) ? 12 : currentDate.month() + 1;
-
+  
+  var backEndError = false;
 
   
   //make api calls here
   var ETH = axios.get(`${BRAVECOIN_URL}?coin=ETH&from=${start}&market=USD&to=${end}`, HEADERS);
   var BTC = axios.get(`${BRAVECOIN_URL}?coin=BTC&from=${start}&market=USD&to=${end}`, HEADERS);
- 
+  
   
   axios.all([ETH, BTC])
     .then(axios.spread((eth, btc) => {
@@ -168,24 +169,35 @@ function fetchData(requestYear, res, getArchive = false, saveInDB = false){
                 
       });
   
+       
       return FEData;
-
+    
     }))
     .then(dataObject => {
-      //performing sorting here
-      return sortCurrencyData(dataObject, upTo, requestYear);
+
+      if(!dataObject["Ethereum"] || !dataObject["Bitcoin"]){
+        backEndError = true;
+        res.send({noDataError: true, errorMessage: "Sorry, there's no data available for the year you requested. Please submit another request."});
+      
+      } else {
+        //performing sorting here
+        return sortCurrencyData(dataObject, upTo, requestYear);
+      }
+
     })
     .then(finalData => {
       
-      if (saveInDB == true){
+      if (saveInDB == true && !backEndError){
         saveDataInDB(requestYear, finalData);
       }
+
+      console.log("the finalData sent is ", finalData);
 
       res.send(finalData);
     })
     .catch(error => {
       console.log("The error inside axios spread is ", error);
-      res.send({error: "There was a problem fetching the currency data in Axios spread."});
+      res.send({apiError: true, errorMessage: "Sorry, there was an error fetching your request. Please submit another request or try again later."});
     });
 
   

@@ -1,7 +1,7 @@
 import React from 'react';
-import {FETCH_CURRENCY_DATA, ERROR_FETCHING_DATA} from '../actions/FetchCurrencyData.jsx';
+import {FETCH_CURRENCY_DATA, API_ERROR, FE_AXIOS_ERROR, NO_DATA_FROM_API} from '../actions/FetchCurrencyData.jsx';
 
-const fetchingDataError = "Sorry, there was an error fetching your request. Try again later.";
+
 
 
 export default function SetCurrencyData(state = {}, action){
@@ -9,8 +9,14 @@ export default function SetCurrencyData(state = {}, action){
     case FETCH_CURRENCY_DATA:
       return action.payload;
     
-    case ERROR_FETCHING_DATA:
-      return Object.assign({}, state, {error: true, errorMessage: fetchingDataError});
+    case NO_DATA_FROM_API:
+      return Object.assign({}, state, action.payload);
+    
+    case API_ERROR:
+      return Object.assign({}, state, action.payload);
+    
+    case FE_AXIOS_ERROR:
+      return action.payload;
   }
 
   return state;
