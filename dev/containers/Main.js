@@ -16,6 +16,16 @@ class Main extends Component {
     )
   }
 
+  displayErrorMessage(status){
+    if (status.error == true){
+      return (
+        <div className="dataError">
+          <h1>{status.errorMessage}</h1>
+        </div>
+      )
+    }
+  }
+
   displayChart(incomingData){
     return (
       <div>
@@ -44,6 +54,7 @@ class Main extends Component {
           <h1>Crypto Currency Chart</h1>
           <h3>A simple chart for comparing the price of Bitcoin versus Ethereum per year</h3>
         </div>
+        {this.displayErrorMessage(CurrencyData)}
         {!CurrencyData["sorted"] ? this.displaySpinner() : this.displayChart(CurrencyData)}
       </div>
     )

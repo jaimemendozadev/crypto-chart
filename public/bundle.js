@@ -14365,7 +14365,7 @@ function warning(message) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.FETCH_CURRENCY_DATA = undefined;
+exports.ERROR_FETCHING_DATA = exports.FETCH_CURRENCY_DATA = undefined;
 exports.fetchCurrencyData = fetchCurrencyData;
 
 var _react = __webpack_require__(1);
@@ -14378,9 +14378,10 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var BASE_URL = 'http://localhost:3000/api/fetchcurrencydata/';
-
+//const BASE_URL = 'http://localhost:3000/api/fetchcurrencydata/';
+var BASE_URL = 'http://localhost:3000/api/somefakeroute/';
 var FETCH_CURRENCY_DATA = exports.FETCH_CURRENCY_DATA = 'FETCH_CURRENCY_DATA';
+var ERROR_FETCHING_DATA = exports.ERROR_FETCHING_DATA = 'ERROR_FETCHING_DATA';
 
 function fetchCurrencyData(fetchYear) {
 
@@ -14390,6 +14391,7 @@ function fetchCurrencyData(fetchYear) {
       dispatch({ type: FETCH_CURRENCY_DATA, payload: response.data });
     }).catch(function (error) {
       console.log("Error fetching API Data ", error);
+      dispatch({ type: ERROR_FETCHING_DATA });
     });
   };
 }
@@ -59779,6 +59781,21 @@ var Main = function (_Component) {
       );
     }
   }, {
+    key: 'displayErrorMessage',
+    value: function displayErrorMessage(status) {
+      if (status.error == true) {
+        return _react2.default.createElement(
+          'div',
+          { className: 'dataError' },
+          _react2.default.createElement(
+            'h1',
+            null,
+            status.errorMessage
+          )
+        );
+      }
+    }
+  }, {
     key: 'displayChart',
     value: function displayChart(incomingData) {
       return _react2.default.createElement(
@@ -59824,6 +59841,7 @@ var Main = function (_Component) {
             'A simple chart for comparing the price of Bitcoin versus Ethereum per year'
           )
         ),
+        this.displayErrorMessage(CurrencyData),
         !CurrencyData["sorted"] ? this.displaySpinner() : this.displayChart(CurrencyData)
       );
     }
@@ -77206,14 +77224,18 @@ var _FetchCurrencyData = __webpack_require__(92);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var fetchingDataError = "Sorry, there was an error fetching your request. Try again later.";
+
 function SetCurrencyData() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments[1];
 
   switch (action.type) {
     case _FetchCurrencyData.FETCH_CURRENCY_DATA:
-      console.log("the payload is ", action.payload);
       return action.payload;
+
+    case _FetchCurrencyData.ERROR_FETCHING_DATA:
+      return Object.assign({}, state, { error: true, errorMessage: fetchingDataError });
   }
 
   return state;

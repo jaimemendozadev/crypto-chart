@@ -88,3 +88,9 @@ body {
   margin-top: .5em;
   font-size: 2em;
   color: red; }
+
+.dataError {
+  margin: 0 auto;
+  text-align: center;
+  font: 1.5em;
+  color: red; }
