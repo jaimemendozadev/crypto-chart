@@ -56,6 +56,7 @@ typings/
 
 # dotenv environment variables file
 .env
+docker_env.list
 
 # files to ignore
 DummyData.js
