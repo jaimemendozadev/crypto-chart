@@ -25,8 +25,7 @@ class Main extends Component {
   componentDidMount(){
     var yearToFetch = new Date().getFullYear();   
     
-    //Note remember to restore yearToFetch before deploying
-    this.props.fetchCurrencyData(2016);
+    this.props.fetchCurrencyData(yearToFetch);
   }
 
   render(){
