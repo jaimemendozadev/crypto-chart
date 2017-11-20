@@ -75,10 +75,10 @@ Once you have Docker installed, run the following commands in your terminal:
 
 Once you're done with the app, kill the Docker container and remove the image from your computer by inputing the following commands in your terminal:
 
-- Run `$ docker container ls -a` to get the container ID.
+- Run `$ docker container ls -a` to get the `containerID` of your Docker container.
 - Run `$ docker kill containerID` to kill the container.
-- Run `$ docker image ls -a` to get the Docker image ID.
-- Run `$ docker image rm IMAGEID` to remove the Docker image.
+- Run `$ docker image ls -a` to get the `imageID` of your Docker image.
+- Run `$ docker image rm imageID` to remove the Docker image.
 
 ## Created By
 
