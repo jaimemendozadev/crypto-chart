@@ -58,14 +58,18 @@ Go to `http://localhost:3000` in your favorite browser to start using the app.
 
 *For this step, you'll need to have Docker installed on your computer already. Please [consult the docs](https://docs.docker.com/engine/installation/) for installation.
 
+Make sure you already created the `.env` file before attempting to create the Docker image.
+
 Once you have Docker installed, run the following commands in your terminal:
 
 
 - If you haven't done so, run `$ npm install` to install all the app dependencies. Wait until everything finishes loading.
 
-- Run `$ docker build -t nameOfYourApp`. The `nameOfYourApp` will be the name of your image Docker will use to run the Node app in a Docker container. Wait until the Docker image finishes building.
+- Run the command (including the . period): `$ docker build -t name-of-your-app .` 
 
-- Run `$ docker run -p 3000:3000 --rm -t -i -v $PWD:/usr/src/app nameOfYourApp` to start the app. 
+- The `name-of-your-app`, must be lowercase, will be the name of your image Docker will use to run the Node app in a Docker container. Wait until the Docker image finishes building.
+
+- Run `$ docker run -p 3000:3000 --rm -t -i -v $PWD:/usr/src/app name-of-your-app` to start the app. 
 
 - Open `http://localhost:3000` in your preferred web browser. The app should be properly running.
 
