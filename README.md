@@ -55,6 +55,7 @@ Go to `http://localhost:3000` in your favorite browser to start using the app.
 
 
 <strong>Run the Node App With Docker</strong>
+
 *For this step, you'll need to have Docker installed on your computer already. Please [consult the docs](https://docs.docker.com/engine/installation/) for installation.
 
 Once you have Docker installed, run the following commands in your terminal:
